@@ -1,7 +1,7 @@
 customElements.define('vanilla-layout', class extends HTMLElement {
     connectedCallback() {
-        this.shadow = this.attachShadow({ mode: "open" });
-        this.shadow.innerHTML = `
+        this.attachShadow({ mode: "open" });
+        this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="/global.css" />
             <style>
                 .vl {
