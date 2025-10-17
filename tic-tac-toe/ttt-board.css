@@ -1,0 +1,19 @@
+.board {
+    width: 150px;
+    height: 150px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 3px;
+}
+.board div { display: grid; }
+#status {
+    margin: 1.5rem 0 3px 0; 
+    padding: 1rem;
+    box-sizing: border-box;
+    border: 1px solid oklch(0.8 0 0);
+    max-width: 150px;
+}
+
+#game[winner=''] #winner { display: none; }
+#game:not([winner='']) #next-player { display: none; }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        customElements.define('my-button', class extends HTMLElement{
+            connectedCallback() {
+                this.innerHTML = `<button>I'm a button</button>`;
+            }
+        });
+
+        customElements.define('my-app', class extends HTMLElement{
+            connectedCallback() {
+                this.innerHTML = `
+                    <div>
+                        <h1>Welcome to my app</h1>
+                        <my-button></my-button>
+                    </div>
+                `
+            }
+        });
+
+
+        customElements.define('my-button2', class extends HTMLElement{
+            handleClick() {
+                alert('You clicked me!');
+            }
+
+            connectedCallback() {
+                this.innerHTML = `
+                    <button onclick="this.closest('my-button2').handleClick()">
+                        Click me
+                    </button>
+                `
+            }
+        });
+
+        customElements.define('my-button3', class extends HTMLElement{
+            handleClick() {
+                alert('You clicked me!');
+            }
+
+            connectedCallback() {
+                this.innerHTML = `
+                    <button>
+                        Click me
+                    </button>
+                `;
+                this.querySelector("button").addEventListener('click',this.handleClick)
+            }
+            
+        });
+
+        customElements.define('my-button4', class extends HTMLElement{
+            #count = 0;
+
+            get count() { return this.#count };
+            set count(newCount) { 
+                this.#count = newCount 
+                this.querySelector('span').textContent = this.#count;
+            }
+
+            handleClick() {
+                this.count++;
+            }
+
+            connectedCallback() {
+                this.innerHTML = `
+                    <button>
+                        Clicked <span>${this.count}</span> times
+                    </button>
+                `;
+                //this.querySelector("button").addEventListener('click',this.handleClick.bind(this))
+                this.querySelector("button").addEventListener('click',()=>{this.count++});
+            }
+            
+        });
+    </script>
+</head>
+<body>
+    <my-app></my-app>
+    <my-button2></my-button2>
+    <my-button3></my-button3>
+    <my-button4></my-button4>
+</body>
+</html>

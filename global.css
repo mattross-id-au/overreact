@@ -1,0 +1,103 @@
+@import url("/assets/fonts/Inter/Inter.css");
+
+:root {
+  color-scheme: light dark;
+  --text-color: light-dark(#333b3c, oklch(0.85 0 0));
+  --text-color-strong: light-dark(oklch(0 0 0 / 1), oklch(1 0 0 / 1));
+  --text-section-heading: light-dark(oklch(0 0 0 / 1), oklch(1 0 0 / 1));
+  --border-color: light-dark(oklch(0 0 0 / 0.1), oklch(1 0 0 / 0.05));
+  --border-radius: 0.8rem;
+
+  --page-background-color: light-dark(oklch(0.90 0.005 240), oklch(0.2317 0.0184 268.43));
+  /*--highlight-background-color: light-dark(oklch(0.8446 0.0611 268.43), oklch(0.3624 0.1069 268.43));*/
+  --highlight-background-color: oklch(from var(--page-background-color) calc(l * 1.5) calc(c * 6) h / 1);
+
+  --main-content-padding: 0rem 1.5rem;
+
+  --content-padding: 25px;
+  --content-fat-padding: 100px;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Inter", Arial, Arial, Helvetica, sans-serif;
+  font-size: 1.0625rem;
+  color: var(--text-color);
+  background-color: var(--page-background-color);
+  margin:0; padding:0;
+}
+
+h1 { font-size: 40px; margin: var(--content-padding); margin-top: 50px; }
+h2 { font-size: 28px; margin: var(--content-padding); margin-top: 50px; }
+
+
+p { line-height: 1.6; }
+strong { color: var(--text-color-strong) }
+main {
+    box-sizing: border-box;
+    max-width: 70em;
+}
+main > * {
+    margin-left: var(--content-fat-padding);
+    margin-right: var(--content-fat-padding);
+}
+
+.wider {
+    margin-left: var(--content-padding);
+    margin-right: var(--content-padding);  
+}
+
+remote-code-block { 
+    display: block; 
+}
+/* main > pre, main > remote-code-block > pre { */
+pre {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    line-height: 1.7;
+    font-size:75%;
+}
+
+.card {
+    /* background-color: oklch(1 0 0 / 0.06);
+    background-color: oklch(from var(--highlight-background-color) calc(l * 0.8) calc(c * 0.15) h / 1); */
+    background-color: oklch(from var(--page-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);
+    border-radius: var(--border-radius);
+    /* border: 1px solid var(--border-color); */
+}
+
+.card > *:first-child { margin-top: 0; padding-top: var(--content-padding); }
+.card > *:last-child { margin-bottom: 0; padding-bottom: var(--content-padding); }
+
+main > .card {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+
+
+
+
+.card p, .card h2, .card h3, .card ul {
+       /* margin: var(--content-padding); */
+    margin-left: var(--content-padding);
+    margin-right: var(--content-padding);
+}
+
+li {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* main {
+    position: relative;
+} */
+diff-switcher {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    position: sticky;
+    top: 0;
+}
