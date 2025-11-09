@@ -1,56 +1,175 @@
 @import url("/assets/fonts/Inter/Inter.css");
+@import url("/assets/fonts/Bitter/Bitter.css");
 
 :root {
   color-scheme: light dark;
-  --text-color: light-dark(#333b3c, oklch(0.85 0 0));
+
+  --body-font:  "Bitter", serif;
+  /* --heading-font: "Inter", Arial, Arial, Helvetica, sans-serif; */
+  --heading-font: "Bitter", serif;
+  --base-font-size: 112.5%;  /* 18px */
+  /* --base-font-size: 125%; /* 20px */
+
+
+  /* --text-color: light-dark(#333b3c, oklch(0.85 0 0)); */
+  --text-color: light-dark(#333b3c, #DADCDE);
   --text-color-strong: light-dark(oklch(0 0 0 / 1), oklch(1 0 0 / 1));
-  --text-section-heading: light-dark(oklch(0 0 0 / 1), oklch(1 0 0 / 1));
-  --border-color: light-dark(oklch(0 0 0 / 0.1), oklch(1 0 0 / 0.05));
+  --text-color-highlight: #F3FF3D;
+  --text-color-heading: light-dark(#22b3c6, #91e5f0);
+  --text-section-heading: light-dark(oklch(0 0 0 / 1), oklch(0.8 0 0 / 1));
+  
+  --border-color: light-dark(oklch(0 0 0 / 0.1), oklch(1 0 0 / 0.08));
   --border-radius: 0.8rem;
 
-  --page-background-color: light-dark(oklch(0.90 0.005 240), oklch(0.2317 0.0184 268.43));
-  /*--highlight-background-color: light-dark(oklch(0.8446 0.0611 268.43), oklch(0.3624 0.1069 268.43));*/
-  --highlight-background-color: oklch(from var(--page-background-color) calc(l * 1.5) calc(c * 6) h / 1);
+  /* --rad-center-dark: oklch(from #385463 calc(l / 2) c h);
+  --rad-outer-dark: oklch(from #1E1830 calc(l / 1) c h); */
+  
+  --rad-center-dark: oklch(from #4A5769 calc(l / 1.6) c h);
+  --rad-outer-dark: oklch(from #4A5769 calc(l / 1.9) c h);
+  --rad-center-light: oklch(from #ffffff l c h);
+  --rad-outer-light: oklch(from #22b3c6 calc(l*2) calc(c * 0.4) h);
 
-  --main-content-padding: 0rem 1.5rem;
+  /* --page-background: light-dark(var(--rad-light), var(--rad-dark)); */
+  --page-background: linear-gradient(
+        -45deg, 
+        light-dark(
+            var(--rad-center-light),
+            var(--rad-center-dark)
+        ) 50%,
+        light-dark(
+            var(--rad-outer-light),
+            var(--rad-outer-dark)
+        ) 100%
+  );
+
+  
+  --highlight-background-color: light-dark(#22b3c6, #25a0b1);
+  --highlight-background: light-dark(oklch(from var(--highlight-background-color) l c h / 0.1), #00000020);
+
+  /* --highlight-background: linear-gradient(45deg,
+    light-dark(#dfdcd9, rgba(0, 0, 0, 0.05)) 0%,
+    light-dark( #fcfbfb,rgba(0, 0, 0, 0.3)) 50%,
+    light-dark(#fcfbfb, rgba(0, 0, 0, 0.05)) 100%
+  ); */
+  /* --highlight-background: linear-gradient(45deg,
+    light-dark(#dfdcd980, rgba(0, 0, 0, 0.05)) 0%,
+    light-dark( #dfdcd9C9,rgba(0, 0, 0, 0.3)) 50%,
+    light-dark(#dfdcd980, rgba(0, 0, 0, 0.05)) 100%
+  ); */
+  
+
+  /* --page-background-color: light-dark(oklch(0.90 0.005 240), oklch(0.2317 0.0184 268.43)); */
+  /*--highlight-background-color: light-dark(oklch(0.8446 0.0611 268.43), oklch(0.3624 0.1069 268.43));*/
+  /*--highlight-background-color: oklch(from var(--page-background-color) calc(l * 1.5) calc(c * 6) h / 1);*/
 
   --content-padding: 25px;
-  --content-fat-padding: 100px;
+  --content-gutter: 50px;
+
+  --line-length: 55rem;
+  --main-grid-columns: [edge-start] var(--content-gutter) [gutter-start] 1fr [text-start] minmax(280px, var(--line-length))  [text-end] 1fr [gutter-end] var(--content-gutter) [edge-end];
+  --main-content-padding: 0rem 1.5rem;
+}
+
+html {
+  font-family: var(--body-font);
+  font-size: var(--base-font-size);
+  color: var(--text-color);
 }
 
 body {
   min-height: 100vh;
-  font-family: "Inter", Arial, Arial, Helvetica, sans-serif;
-  font-size: 1.0625rem;
-  color: var(--text-color);
+  /* font-family: "Inter", Arial, Arial, Helvetica, sans-serif; */
+
+  /* font-size: 1.0625rem; */
   background-color: var(--page-background-color);
+  background: var(--page-background);
+  background-attachment: fixed; /* This makes the background fixed */
+  background-size: cover; /* Ensures the gradient covers the entire viewport */
   margin:0; padding:0;
 }
 
-h1 { font-size: 40px; margin: var(--content-padding); margin-top: 50px; }
-h2 { font-size: 28px; margin: var(--content-padding); margin-top: 50px; }
+@media (max-width: 1220px) { 
+    :root {
+        --content-gutter: 25px;
+        --base-font-size: 112.5%; /* 18px */
+    }
+    main {
+        padding-top: 50px;
+    }
+}
 
 
-p { line-height: 1.6; }
+
+
+h1 { font-size: 2.986rem; margin-top: 50px; font-family: var(--heading-font); color: var(--text-color-heading); }
+h2 { font-size: 2.488rem; margin-top: 50px; font-family: var(--heading-font); color: var(--text-color-heading); }
+h3 { font-size: 2.074rem; font-family: var(--heading-font); color: var(--text-color-heading); }
+h4 { font-size: 1.728rem; font-family: var(--heading-font); color: var(--text-color-heading); }
+h5 { font-size: 1.44rem; font-family: var(--heading-font); }
+h6 { font-size: 1.2rem; font-family: var(--heading-font); }
+p { /*font-size: 1.11112rem;*/  line-height: 1.8; }
+small { font-size: 0.833rem;  }
+
 strong { color: var(--text-color-strong) }
-main {
+code { font-size: 14px; }
+p code { background-color: #FFFFFF10; padding-top: 0.2em; padding-bottom: 0.2em; }
+
+del, ins {
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+ins { text-decoration: none; }
+
+[data-diff=diff] {
+    del { 
+        color: oklch(from var(--text-color) l c h / 0.7); 
+        text-decoration-color: #800000;
+    }
+    ins { 
+        text-decoration: none; 
+        /* background-color: oklch(0.7285 0.12436 194.769 / 0.2); */
+        background-color: oklch(77.636% 0.17048 110.928 / 0.1); 
+
+        corner-shape: squircle;
+        border-radius: 50% / 1.1rem 0.5rem 0.9rem 0.7rem;
+        box-decoration-break: clone;
+    }
+}
+
+[data-diff=wc] {
+    del { display: none; }
+    ins { 
+        /* color: var(--text-color-strong); */
+        /* background-color: oklch(0.7285 0.12436 194.769 / 0.05)  */
+    }
+}
+
+[data-diff=react] {
+    del { text-decoration: none; }
+    ins { display: none; }
+}
+
+
+
+main, .main-grid {
     box-sizing: border-box;
-    max-width: 70em;
-}
-main > * {
-    margin-left: var(--content-fat-padding);
-    margin-right: var(--content-fat-padding);
+    /* max-width: 70em; */
+    display: grid;
+    grid-template-columns: var(--main-grid-columns);
 }
 
-.wider {
-    margin-left: var(--content-padding);
-    margin-right: var(--content-padding);  
+main > *,  .main-grid > * {
+    grid-column: text-start / text-end; 
 }
 
-remote-code-block { 
-    display: block; 
+main > .wider,  .main-grid > .wider {
+    grid-column: gutter-start / gutter-end;
 }
-/* main > pre, main > remote-code-block > pre { */
+
+main > .full-width, .main-grid > .full-width, diff-switcher {
+    grid-column: edge-start / edge-end;
+}
+
 pre {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -63,7 +182,9 @@ pre {
 .card {
     /* background-color: oklch(1 0 0 / 0.06);
     background-color: oklch(from var(--highlight-background-color) calc(l * 0.8) calc(c * 0.15) h / 1); */
-    background-color: oklch(from var(--page-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);
+    /*background-color: oklch(from var(--page-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);*/
+    /* background: linear-gradient(45deg,rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.05) 100%); */
+    background: var(--highlight-background);
     border-radius: var(--border-radius);
     /* border: 1px solid var(--border-color); */
 }
@@ -86,6 +207,10 @@ main > .card {
     margin-right: var(--content-padding);
 }
 
+.highlight-block {
+    background: var(--highlight-background);
+}
+
 li {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -94,10 +219,33 @@ li {
 /* main {
     position: relative;
 } */
+
+
+
 diff-switcher {
     display: block;
     margin-left: 0;
     margin-right: 0;
     position: sticky;
     top: 0;
+    z-index: 10;
+    background: var(--highlight-background);
+}
+
+block-switcher-panel {
+    display: block;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+code-mirror {
+    background: var(--highlight-background);
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+}
+
+code-preview {
+    background: var(--highlight-background);
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
 }

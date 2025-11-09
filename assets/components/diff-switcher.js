@@ -1,3 +1,23 @@
+// customElements.define('diff-option', class extends HTMLElement {
+//     constructor() {
+//         super();
+//         this.attachShadow({ mode: "open"});
+
+//         const value = this.getAttribute("")
+
+//         this.shadowRoot.innerHTML = `
+//             <label data-selected="selected">
+//                 <input type="radio" name="diff" value="diff" checked="checked" aria-checked="true">
+//                 <span>${this.textContent}</span>
+//             </label>
+//         `
+
+//         this.addEventListener('click', () {
+
+//         })
+//     }
+// });
+
 customElements.define('diff-switcher', class extends HTMLElement {
     connectedCallback() {
         if(!this.shadowRoot) {
@@ -6,14 +26,24 @@ customElements.define('diff-switcher', class extends HTMLElement {
                 <style>
                     :host {
                         display: block;
-                        background-color: oklch(from var(--page-background-color) l c h / 0.7);
+                        grid-column: edge-start / edge-end;
+                        
+                        /*background-color: oklch(from var(--page-background-color) l c h / 0.7);*/
+                        /*background: var(--highlight-background);*/
                         backdrop-filter: blur(5px);
                         border-bottom: 1px solid var(--border-color);
+                        
                     }
 
                     form {
                         background-color: oklch(0 0 0 / 0);
-                        padding: 0.7rem var(--content-padding) 
+                        padding: 0.7rem var(--content-padding);
+                        display: grid;
+                        grid-template-columns: var(--main-grid-columns);
+                    }
+
+                    fieldset {
+                        grid-column: text-start / text-end; 
                     }
 
                     input[type="radio"] {
@@ -29,16 +59,27 @@ customElements.define('diff-switcher', class extends HTMLElement {
                         white-space: nowrap;
                     }
 
+                    .options {
+                        display: flex;
+                        justify-content: center;
+                    }
+
                     label { 
                         display: inline-block; 
-                        padding: 0.3rem 2rem;
-                        margin-right: 0.5rem;
+                        padding: 0.3rem 1rem;
+                        margin: 0 0.5rem 0.5rem 0;
                         background-color: var(--page-background-color);
                         border: 1px solid var(--border-color);
                         border-radius: 50px;
                         cursor: pointer;
                         user-select: none;
                         transition: background-color 240ms, box-shadow 120ms, color 120ms;
+                    }
+
+                    @media (max-width: 1220px) { 
+                        label {
+                            font-size: 85%;
+                        }
                     }
 
                     label:focus-within {
@@ -68,23 +109,29 @@ customElements.define('diff-switcher', class extends HTMLElement {
                         margin-bottom: 0.5rem;
                         font-weight: 600;
                     }
+
+
                 </style>
 
                 <form>
                     <fieldset role="radiogroup" aria-label="Diff view">
-                    <legend>Show me: </legend>
-                    <label data-selected="selected">
-                        <input type="radio" name="diff" value="diff" checked="checked" >
-                        <span>Differences</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="diff" value="wc">
-                        <span>Web Components</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="diff" value="react">
-                        <span>React</span>
-                    </label>
+                        <!-- <legend>Show</legend> -->
+                        <div class="options">
+                            <label>
+                                <input type="radio" name="diff" value="wc">
+                                <span>Web Components</span>
+                            </label>
+
+                            <label data-selected="selected">
+                                <input type="radio" name="diff" value="diff" checked="checked" aria-checked="true">
+                                <span>Edits</span>
+                            </label>
+
+                            <label>
+                                <input type="radio" name="diff" value="react">
+                                <span>React (original)</span>
+                            </label>
+                        </div>
                     </fieldset>
                 </form>
             `
@@ -118,7 +165,7 @@ customElements.define('diff-switcher', class extends HTMLElement {
 
                 // emit a composed event so outer listeners can react
                 this.dispatchEvent(new CustomEvent('diff-change', {
-                    detail: { value },
+                    detail: { value: event.target.value },
                     bubbles: true,
                     composed: true
                 }));
