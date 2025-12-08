@@ -24,7 +24,10 @@ customElements.define('vanilla-layout', class extends HTMLElement {
 
                     <div class="sticky">
                         <header>
-                            <p>Overreact</p>
+                            <a href="/">
+                                <img src="/assets/images/overreact-logo.svg" alt="" width="35" />
+                                <span>Overreact</span>
+                            </a>
                         </header>
 
                         <slot name="left-nav">

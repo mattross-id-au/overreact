@@ -1,3 +1,4 @@
+let html = String.raw;
 (async () => {
     await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js');
     await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js');
@@ -11,7 +12,14 @@
 })();
 
 class CodeMirrorElement extends HTMLElement {
-    static observedAttributes = ["mode", "readonly","linenumbers","linewrapping","label"];
+    static observedAttributes = ["mode", "readonly","linenumbers","linewrapping","label","highlights"];
+
+    #activeContext;
+    #contextObserver;
+    #codeMirrorLayoutElement;
+    #highlightsStr = '';
+    #highlightsStyleElement;
+    
 
     options = {
         value: '',
@@ -31,13 +39,20 @@ class CodeMirrorElement extends HTMLElement {
         //     <div class="editor"></div>
         // `
 
-        this.shadowRoot.innerHTML = `
+        this.shadowRoot.innerHTML = html`
             <style>
                 
-                :host { display: block; }
-                
+                :host { display: flex; flex-direction: column; }
+                .layout { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+                .editor { display: flex; flex: 1 1 auto; overflow: auto; min-height: 0; }
                 .editor .CodeMirror { 
-                    --editor-background-color: oklch(from var(--page-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);    
+                    overflow: hidden;
+                    height: auto;
+                    min-height: 0;
+                    /* height: 200px; */
+                    width: 100%;
+                    /*--editor-background-color: oklch(from var(--page-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);    */
+                    --editor-background-color: var(--highlight-background);
                     --highlight-line-color: oklch(from var(--editor-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);
                     
 
@@ -47,7 +62,7 @@ class CodeMirrorElement extends HTMLElement {
                         background: var(--editor-background-color)
                     }
                     line-height: 1.8;
-                    font-size: 14px;
+                    font-size: 13px;
                     pre.CodeMirror-line {
                         padding-left: 16px;
                     
@@ -64,21 +79,54 @@ class CodeMirrorElement extends HTMLElement {
                     border-bottom: 1px solid var(--border-color);
                     padding: 0.5rem 1.2rem;
                     font-size: 75%;
-                    text-transform: uppercase;
-                    font-weight: 800;
+                    /*text-transform: uppercase;*/
+                    font-weight: 700;
 
                 }
                 .label-empty { display: none; }
-            </style>
-            <style class="dynamic"></style>
-            <style class="highlights">
-                .CodeMirror-code div:nth-child(6) {
-                    background-color: var(--highlight-line-color);
+                :host([slot="del"]) [data-diff=diff] .label span {
+                    color: oklch(from var(--text-color) l c h / 0.7); 
+                    text-decoration: line-through;
+                    text-decoration-color: #800000;
                 }
+                :host([slot="ins"]) [data-diff=diff] .label span {
+                    padding: 0.2rem 0.3rem;
+                    text-decoration: none; 
+                    background-color: oklch(77.636% 0.17048 110.928 / 0.1); 
+                    corner-shape: squircle;
+                    border-radius: 50% / 1.1rem 0.5rem 0.9rem 0.7rem;
+                    box-decoration-break: clone;
+                }
+
+                .editor .CodeMirror-scrollbar-filler { background-color: transparent;}
+                
+                @supports (scrollbar-color: auto) {
+                    * {
+                        scrollbar-width: thin;
+                        scrollbar-color: #ffffff50 transparent;
+                    }
+                }
+
+                /* Otherwise, use ::-webkit-scrollbar-* pseudo-elements */
+                @supports selector(::-webkit-scrollbar) {
+                    *::-webkit-scrollbar {
+                        background: #ffffff50;
+                    }
+                    *::-webkit-scrollbar-thumb {
+                        background: transparent;
+                    }
+                }
+
             </style>
-            <div class="label label-empty"></div>
-            <div class="editor"></div>
+            <style class="highlights"></style>
+            <div class="layout">
+                <div class="label label-empty"><span></span></div>
+                <div class="editor"></div>
+            </div>
         `;
+
+        this.#codeMirrorLayoutElement = this.shadowRoot.querySelector(".layout");
+        this.#highlightsStyleElement = this.shadowRoot.querySelector("style.highlights");
 
         this.styles = Promise.all([
             stylePromise("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css", this.shadowRoot),
@@ -101,40 +149,50 @@ class CodeMirrorElement extends HTMLElement {
         }).then(code=>{
             this.styles.then(()=>{
                 const useElement = this.shadowRoot.querySelector(".editor");
-                const styleElement = this.shadowRoot.querySelector("style.dynamic");
+                
                 const lines = code.split("\n").length;
-                let height = (lines * 26) + 10;
+                // let height = (lines * 26) + 10;
 
-                if(height > 400) { 
-                    height = 400;
-                }
-                //console.log(lines);
-                styleElement.textContent = `
-                    .editor .CodeMirror { height: ${height}px }
-                `
+                // if(height > 400) { 
+                //     height = 400;
+                // }
+                // //console.log(lines);
+                // styleElement.textContent = `
+                //     .editor .CodeMirror { height: ${height}px }
+                // `
 
                 const useOptions = { 
                     ...this.options,
                     value: code
                 }
+
                 this.CodeMirror = CodeMirror(useElement, useOptions);
                 this.CodeMirror.on('change',(_, changeObj) => {
                     const changeEvent = new CodeMirrorChangeEvent(this.CodeMirror.doc.getValue(), changeObj);
                     this.dispatchEvent(changeEvent);
                 });
 
-                                        // new CustomEvent("change", { 
-                        //     detail: {
-                        //         value: this.CodeMirror.doc.getValue(),
-                        //         change: changeObj
-                        //     }
-                        // })
+                // Watch for context changes
+                this.#contextObserver = this.#contextObserver || new MutationObserver((mutationList, observer) => {
+                    for(const mutationRecord of mutationList) {
+                        if(mutationRecord.type === "attributes" && mutationRecord.attributeName == "data-diff") {
+                            this.#handleContextChange();
+                        }
+                    }
+                });
+                this.#contextObserver.observe(document.documentElement, { childList: false, attributes: true, subtree: false });
+                this.#handleContextChange();
 
                 this.dispatchEvent(new Event("ready"));
 
             })
 
         })
+    }
+
+    #handleContextChange() {
+        this.#activeContext = document.documentElement.getAttribute("data-diff");
+        this.#codeMirrorLayoutElement.setAttribute("data-diff", this.#activeContext);
     }
 
     attributeChangedCallback(property, oldValue, newValue) {
@@ -201,7 +259,8 @@ class CodeMirrorElement extends HTMLElement {
     set label(newLabel) {
         this.options.label = newLabel;
         const labelElement = this.shadowRoot.querySelector(".label");
-        labelElement.textContent = this.options.label;
+        const labelSpanElement = this.shadowRoot.querySelector(".label span");
+        labelSpanElement.textContent = this.options.label;
         if(newLabel) {
             labelElement.classList.remove("label-empty");
             labelElement.classList.add("label-contents");
@@ -210,6 +269,36 @@ class CodeMirrorElement extends HTMLElement {
             labelElement.classList.remove("label-contents");
         }
 
+    }
+    get value() {
+        return this.CodeMirror.doc.getValue();
+    }
+
+    get highlights() {
+        return this.#highlightsStr;
+    }
+    set highlights(str) {
+        this.#highlightsStr = str;
+        let result = '';
+        const blocks = str.split(",");
+        for(const block of blocks) {
+            let [start, end] = block.split("-");
+            if(start && !end) { end = start }
+            for(let i = parseInt(start); i <= parseInt(end); i++) {
+                result += `
+                    .CodeMirror-code div:nth-child(${i}) {
+                        background-color: var(--highlight-line-color);
+                    }
+                `
+            }
+        }
+        this.#highlightsStyleElement.textContent = result;
+
+    }
+
+    addEventListener(event, func) {
+        console.log('codeMirror - addEventListener', event, func);
+        super.addEventListener(event, func);
     }
 }
 

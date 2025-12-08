@@ -1,5 +1,7 @@
 class CodePreview extends HTMLElement {
-    static observedAttributes = ["srcdoc","id", "wrapper"];
+    static observedAttributes = ["srcdoc","id", "wrapper", "entry","entryfile"];
+    #entry = '';
+    #entryfile = '';
 
     static srcWrappers = new Map([
         ["none", function(content) { return content }],
@@ -15,7 +17,7 @@ class CodePreview extends HTMLElement {
                 </html>
             `
         }],
-        ["react", function(content) {
+        ["react2", function(content) {
             if(content.indexOf("export default ") == -1) {
                 return `
                     <html><head>${ this.appendHeaders() }</head><body>No export found</body></html>
@@ -41,6 +43,29 @@ class CodePreview extends HTMLElement {
                         const root = ReactDOM.createRoot(container);
                         root.render(<App />);
                     </script>
+                </body>
+                </html>
+            `
+        }],
+        ["react", function(content) {
+            if(!content) return `<!DOCTYPE html><html><head>${ this.appendHeaders() }</head></html>`;
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    ${ this.appendHeaders() }
+                    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+                    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+                    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+                </head>
+                <body>
+                    <div id="root"></div>
+                    ${ this.#entry ? `<script>globalThis.ENTRY = "${this.#entry}"</script>` : '<!-- NOENTRY -->'}
+                    ${ this.#entryfile ? `<script>globalThis.ENTRYFILE = "${this.#entryfile}"</script>` : '<!-- NOENTRYFILE -->'}
+                    <script>
+                        ${content};
+                    </script>
+                    <script type="text/babel" src="/assets/components/code-preview-frame.jsx"></script>
                 </body>
                 </html>
             `
@@ -79,8 +104,16 @@ class CodePreview extends HTMLElement {
         }
         if(property=="id") {
             this.#id = newValue;
-            this.setSrcDoc(newValue);
+            //this.setSrcDoc(newValue);
         }
+        if(property=="entry") {
+            this.#entry = newValue;
+        }
+        if(property=="entryfile") {
+            this.#entryfile = newValue;
+            //this.setSrcDoc();
+        }
+        
     }
 
     connectedCallback() {
@@ -152,6 +185,12 @@ class CodePreview extends HTMLElement {
             console.warn("Can't set wrapper", wrapperName, " (not found)");
         }
     }
+
+    set entry(entry) { this.setAttribute("entry", entry); }
+    get entry() { return this.#entry; }
+
+    set entryfile(entryfile) { this.setAttribute("entryfile", entryfile); }
+    get entryfile() { return this.#entryfile; }
 
 
 }

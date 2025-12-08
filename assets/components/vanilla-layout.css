@@ -55,16 +55,20 @@ header {
     padding-left: var(--content-padding);
     padding-right: var(--content-padding);
 
-    p {
-        font-size: 170%;
+    a, a[active] {
+        font-size: 150%;
         font-weight: 900;
         line-height: 0.9;
         text-transform: uppercase;
-        padding-top: 15px;
-        padding-bottom: 15px;
+        padding-top: 25px;
+        padding-bottom: 20px;
+        padding-left: 0;
         margin:0;
         /* color: var(--text-color-strong); */
         color: var(--text-color-heading);
+        background-color: transparent;
+        display: flex;
+        gap: 10px
     }
 }
 

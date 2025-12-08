@@ -46,6 +46,8 @@
   --highlight-background-color: light-dark(#22b3c6, #25a0b1);
   --highlight-background: light-dark(oklch(from var(--highlight-background-color) l c h / 0.1), #00000020);
 
+  --highlight-background: light-dark(oklch(0.97 0.02 206.45), oklch(0.24 0.03 259.07));
+
   /* --highlight-background: linear-gradient(45deg,
     light-dark(#dfdcd9, rgba(0, 0, 0, 0.05)) 0%,
     light-dark( #fcfbfb,rgba(0, 0, 0, 0.3)) 50%,
@@ -162,7 +164,7 @@ main > *,  .main-grid > * {
     grid-column: text-start / text-end; 
 }
 
-main > .wider,  .main-grid > .wider {
+main > .wider,  .main-grid > .wider, .main-grid > .wider {
     grid-column: gutter-start / gutter-end;
 }
 
@@ -248,4 +250,17 @@ code-preview {
     background: var(--highlight-background);
     border-radius: var(--border-radius);
     margin: 1rem 0;
+}
+
+code-ide, code-ide2 {
+    max-width: 120rem;
+    display: block;
+    margin: 0px auto;
+}
+
+code-ide > code-mirror, code-ide2 > code-mirror  {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    /* border-radius: 0; */
 }
