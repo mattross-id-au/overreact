@@ -1,7 +1,8 @@
+const html = String.raw;
 customElements.define('vanilla-layout', class extends HTMLElement {
     connectedCallback() {
         this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `
+        this.shadowRoot.innerHTML = html`
             <link rel="stylesheet" href="/global.css" />
             <style>:host { display:none } /* prevents FOUC */ </style>
             <link rel="stylesheet" href="/assets/components/vanilla-layout.css" />
@@ -17,13 +18,20 @@ customElements.define('vanilla-layout', class extends HTMLElement {
                     Menu
                 </label>
 
+                <header class="mobile-header">
+                    <a href="/">
+                        <img src="/assets/images/overreact-logo.svg" alt="" width="35" />
+                        <span>Overreact</span>
+                    </a>
+                </header>
+
                 <input type="checkbox" id="menu-toggle" name="menu-toggle" checked="false" />
                 <div class="left">
 
                     
 
                     <div class="sticky">
-                        <header>
+                        <header class="nav-header">
                             <a href="/">
                                 <img src="/assets/images/overreact-logo.svg" alt="" width="35" />
                                 <span>Overreact</span>
