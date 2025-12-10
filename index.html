@@ -3,39 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
     <title>Overreact - React components without React, frameworks, package managers or build tools</title>
+    <link rel="icon" href="/assets/images/overreact-logo.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/global.css" />
     <script src="/assets/components/vanilla-layout.js" type="module"></script>
     <script src="/assets/components/diff-switcher.js" type="module"></script>
+    <script src="/assets/components/code-mirror.js" type="module"></script>
 
     <style>
         h1 { text-transform: uppercase; text-align: center; font-weight: 900}
         p.really-embiggen { text-align: center; font-size: 2.074rem; line-height: 1.2em; }
 
         h2 { text-align: center; }
-        p.embiggen { font-size: 1.2rem; }
-
+        
         .fakedel { display: initial!important; color: oklch(from var(--text-color) l c h / 0.7)!important; text-decoration: line-through; text-decoration-color: #800000; }
+        .hero { display: flex; flex-direction: column; align-items: center; margin-top: 100px; margin-bottom: 100px}
+        .hero h1 { margin: 0.5em; }
+        .hero img { display: block; width: 100px; }
+        .hero p { margin-top:0;}
+
+        p.embiggen { font-size: 1.2rem; text-align: center; }
+        .empadden { padding-top: 100px; padding-bottom: 100px; }
     </style>
 </head>
 <body>
     <vanilla-layout>
         <main slot="main">
-            <div class="hero">
+            <div class="hero empadden">
+                <img src="/assets/images/overreact-logo.svg" alt="" />
                 <h1>Over<span class="fakedel">react</span></h1>
                 <p class="really-embiggen"><del>The library for</del> web <del>and</del> native user interfaces</p>
             </div>
 
             <diff-switcher></diff-switcher>
 
-            <div class="full-width highlight-block">
+            <div class="full-width highlight-block empadden">
                 <div class="main-grid">
-                    <h2>Create user interfaces from components</h2>
-                    <p class="embiggen"><del>React</del> <ins>Web components</ins> lets you build user interfaces out of individual pieces called components. Create your own <del>React</del> components like <code>Thumbnail</code>, <code>LikeButton</code>, and <code>Video</code>. Then combine them into entire screens, pages, and apps.</p>
+                    <div>
+                        <h2>Create user interfaces from components</h2>
+                        <p class="embiggen"><del>React</del> <ins>Web components</ins> lets you build user interfaces out of individual pieces called components. Create your own <del>React</del> components like <code>Thumbnail</code>, <code>LikeButton</code>, and <code>Video</code>. Then combine them into entire screens, pages, and apps.</p>
+                    </div>
+                    <div class="wider">
+                        <code-mirror src="embed-video.js" label="Video.js" readonly="true" linenumbers="false" mode="jsx"></code-mirror>
+                    </div>
+                    <div>
+                        <p class="embiggen">Whether you work on your own or with thousands of other developers, using <del>React</del> <ins>Web&nbsp;components</ins> feels the same. It is designed to let you seamlessly combine components written by independent people, teams, and organizations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="full-width empadden">
+                <div class="main-grid">
+                    <div>
+                        <h2>Write components with code and markup</h2>
+                        <p class="embiggen"><del>React</del> <ins>Web</ins> components are <del>JavaScript functions</del> <ins>Custom HTML Elements built with JavaScript</ins>. Want to show some content conditionally? Use an if statement. Displaying a list? Try array map(). Learning <del>React</del> <ins>to build web components</ins> is learning programming. </p>
+                        <p class="embiggen"><ins>Add Web Components to a page with plain old HTML.</ins></p>
+                    </div>
+                    <div class="wider">
+                        <code-mirror src="embed-video-list.js" label="VideoList.js" readonly="true" linenumbers="false" mode="jsx"></code-mirror>
+                    </div>
                 </div>
             </div>
         </main>
-    <vanilla-layout>
+    </vanilla-layout>
 
 </body>
 </html>
