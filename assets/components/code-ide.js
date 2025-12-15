@@ -32,6 +32,7 @@ class CodeIDE extends HTMLElement {
                 }
 
                 .tabs { grid-area: tabs; padding: 0 2rem; }
+                .tabs-count-1 { display: none; }
                 button[role="tab"] {
                     display: inline-block;
                     cursor: pointer;
@@ -195,10 +196,14 @@ class CodeIDE extends HTMLElement {
             let previousTab = null;
 
             for(const panelElement of slotElement.assignedElements()) {
-                const tabLabel = panelElement.getAttribute("tab");
+                let tabLabel = panelElement.getAttribute("tab");
                 const tabId = panelElement.getAttribute("tabid") || tabLabel;
                 const slotName = panelElement.getAttribute("slot");
                 const panelEntry = panelElement.getAttribute("entry");
+
+                if(!tabLabel) {
+                    tabLabel = panelElement.getAttribute("src").split("/").at(-1);
+                }
 
                 let tabData = this.tabs.get(tabId) || {};
                 this.tabs.set(tabId, tabData);
@@ -259,6 +264,12 @@ class CodeIDE extends HTMLElement {
                     tabData.previousTab.buttonElement.after(tabData.buttonElement);
                 }
             }
+        }
+
+        if(this.tabs.size == 1) {
+            tabsContainerElement.classList.add("tabs-count-1");
+        } else {
+            tabsContainerElement.classList.remove("tabs-count-1");
         }
 
         if(!this.selectedTab && this.#connected == true) {
