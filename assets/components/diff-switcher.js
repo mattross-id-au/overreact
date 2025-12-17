@@ -19,6 +19,8 @@
 // });
 
 customElements.define('diff-switcher', class extends HTMLElement {
+    #formElement;
+
     connectedCallback() {
         if(!this.shadowRoot) {
             this.attachShadow({ mode: "open" });
@@ -27,17 +29,11 @@ customElements.define('diff-switcher', class extends HTMLElement {
                     :host {
                         display: block;
                         grid-column: edge-start / edge-end;
-                        
-                        /*background-color: oklch(from var(--page-background-color) l c h / 0.7);*/
-                        /*background: var(--highlight-background);*/
-                        backdrop-filter: blur(5px);
-                        border-bottom: 1px solid var(--border-color);
-                        
                     }
 
                     form {
                         background-color: oklch(0 0 0 / 0);
-                        padding: 0.7rem var(--content-padding);
+                        padding: 0.7rem var(--content-padding) 0 var(--content-padding);
                         display: grid;
                         grid-template-columns: var(--main-grid-columns);
                     }
@@ -66,15 +62,21 @@ customElements.define('diff-switcher', class extends HTMLElement {
 
                     label { 
                         display: inline-block; 
-                        padding: 0.3rem 1rem;
-                        margin: 0 0.5rem 0.5rem 0;
-                        background-color: var(--page-background-color);
+                        padding: 0.5rem 1rem;
+                        margin: 0 -1px 0 0;
+                        background-color: light-dark(
+                            oklch(0.98 0.02 202.01 / 1),
+                            oklch(0.22 0.03 254.77 / 1) 
+                        );
                         border: 1px solid var(--border-color);
-                        border-radius: 50px;
+                        border-bottom: 0px solid var(--border-color);
                         cursor: pointer;
                         user-select: none;
                         transition: background-color 240ms, box-shadow 120ms, color 120ms;
+                        &:first-child { border-top-left-radius:  8px; }
+                        &:last-child  { border-top-right-radius: 8px; }
                     }
+                    
 
                     @media (max-width: 1220px) { 
                         label {
@@ -92,9 +94,9 @@ customElements.define('diff-switcher', class extends HTMLElement {
                     }
 
                     label[data-selected] {
-                        color: var(--text-color-strong);    
-                        background-color: var(--highlight-background-color);
-                        box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3);
+                        color: var(--text-color-strong);  
+                        border-top: 2px solid var(--highlight-background-color);
+                        background: var(--page-background);
                     }
 
                     fieldset {
@@ -109,8 +111,6 @@ customElements.define('diff-switcher', class extends HTMLElement {
                         margin-bottom: 0.5rem;
                         font-weight: 600;
                     }
-
-
                 </style>
 
                 <form>
@@ -122,8 +122,8 @@ customElements.define('diff-switcher', class extends HTMLElement {
                                 <span>Web Components</span>
                             </label>
 
-                            <label data-selected="selected">
-                                <input type="radio" name="diff" value="diff" checked="checked" aria-checked="true">
+                            <label>
+                                <input type="radio" name="diff" value="diff">
                                 <span>Edits</span>
                             </label>
 
@@ -136,41 +136,47 @@ customElements.define('diff-switcher', class extends HTMLElement {
                 </form>
             `
 
-            const form = this.shadowRoot.querySelector("form");
+            this.#formElement = this.shadowRoot.querySelector("form");
 
-            // set initial attribute from the checked input
-            const initial = this.shadowRoot.querySelector('input[name="diff"]:checked');
-            if (initial) {
-                document.documentElement.setAttribute("data-diff", initial.value);
-            }
-
-            form.addEventListener('submit', (event)=> {
+            this.#formElement.addEventListener('submit', (event)=> {
                 event.preventDefault();
             });
 
-            form.addEventListener('change', (event)=> {
-                document.documentElement.setAttribute("data-diff", event.target.value);
-
-                for(const labelElement of this.shadowRoot.querySelectorAll("label")) {
-                    const input = labelElement.querySelector("input");
-
-                    if(input.checked) {
-                        labelElement.setAttribute("data-selected", "selected");
-                        input.setAttribute('aria-checked', 'true');
-                    } else {
-                        labelElement.removeAttribute("data-selected");
-                        input.setAttribute('aria-checked', 'false');
-                    }
-                }
-
-                // emit a composed event so outer listeners can react
-                this.dispatchEvent(new CustomEvent('diff-change', {
-                    detail: { value: event.target.value },
-                    bubbles: true,
-                    composed: true
-                }));
-            });
+            this.#formElement.addEventListener('change', (event)=> {
+                this.setDiff(event.target.value);    
+            });    
         }
+
+        this.setDiff(localStorage.getItem("diff") || "diff");
+    }
+
+    setDiff(value) {
+        const selectedInput = this.shadowRoot.querySelector(`input[name="diff"][value="${value}"]`);
+        if(selectedInput && !selectedInput.checked) {
+            selectedInput.checked = true;
+        }
+
+        document.documentElement.setAttribute("data-diff", value);
+        localStorage.setItem("diff",value);
         
+        for(const labelElement of this.shadowRoot.querySelectorAll("label")) {
+            const input = labelElement.querySelector("input");
+
+            if(input.checked) {
+                labelElement.setAttribute("data-selected", "selected");
+                input.setAttribute('aria-checked', 'true');
+            } else {
+                labelElement.removeAttribute("data-selected");
+                input.setAttribute('aria-checked', 'false');
+            }
+        }
+
+        // emit a composed event so outer listeners can react
+        this.dispatchEvent(new CustomEvent('diff-change', {
+            detail: { value: value },
+            bubbles: true,
+            composed: true
+        }));
+
     }
 })
