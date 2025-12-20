@@ -19,6 +19,10 @@ class CodeIDE extends HTMLElement {
         this.shadowRoot.innerHTML = html`
             <link rel="stylesheet" href="/global.css" />
             <style>
+                :host {
+                    container-type: inline-size;
+                    container-name: ide-layout; 
+                }
                 .ide-layout {
                     display: grid;
                     grid-template-columns: 50% 50%;
@@ -105,6 +109,36 @@ class CodeIDE extends HTMLElement {
                     grid-template-rows: auto 50vh auto;
                     .code-ins { grid-area: none; display: none; }
                     code-preview.preview-ins { grid-area: none; display: none; }
+                }
+
+                @container ide-layout (max-width: 1024px) {
+                    .ide-layout {
+                        grid-template-areas:
+                            "tabs" "code-del" "preview-del" "code-ins"  "preview-ins";
+                        grid-template-columns: 100%;
+                        grid-template-rows: auto repeat(4, 30vh);
+                    }
+                    [data-diff=wc] {
+                        grid-template-areas: "tabs" "code-ins"  "preview-ins";
+                        grid-template-rows: auto repeat(2, 30vh);
+                    }
+                    [data-diff=react] {
+                        grid-template-areas: "tabs" "code-del"  "preview-del";
+                        grid-template-rows: auto repeat(2, 30vh);
+                    }
+                    .code-del, .code-ins { 
+                        border-top-right-radius: var(--border-radius); 
+                        
+                        border-bottom-left-radius: 0;
+                        border-bottom: 1px solid var(--border-color);
+                        margin-bottom: 0!important;
+                    }
+                    code-preview { border-left: 0px solid transparent; }
+                    .preview-del, .preview-ins { 
+                        border-top: 0px solid transparent!important;
+                        border-top-right-radius:0; 
+                        border-bottom-left-radius: var(--border-radius); 
+                    }
                 }
             </style>
             <div class="ide-layout">

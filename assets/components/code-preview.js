@@ -153,6 +153,71 @@ class CodePreview extends HTMLElement {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="color-scheme" content="dark light">
             <style>body, html { background-color: transparent; color: light-dark(black,white); }</style>
+            <style>
+                * {
+                box-sizing: border-box;
+                }
+
+                body {
+                font-family: sans-serif;
+                margin: 20px;
+                padding: 0;
+                }
+
+                h1 {
+                margin-top: 0;
+                font-size: 22px;
+                }
+
+                h2 {
+                margin-top: 0;
+                font-size: 20px;
+                }
+
+                h3 {
+                margin-top: 0;
+                font-size: 18px;
+                }
+
+                h4 {
+                margin-top: 0;
+                font-size: 16px;
+                }
+
+                h5 {
+                margin-top: 0;
+                font-size: 14px;
+                }
+
+                h6 {
+                margin-top: 0;
+                font-size: 12px;
+                }
+
+                code {
+                font-size: 1.2em;
+                }
+
+                ul {
+                padding-inline-start: 20px;
+                }
+
+                .card {
+                width: fit-content;
+                margin: 5px;
+                padding: 5px;
+                font-size: 20px;
+                text-align: center;
+                border: 1px solid #aaa;
+                border-radius: 20px;
+                background: #fff;
+                }
+                .avatar {
+                margin: 20px;
+                border-radius: 50%;
+                }
+
+            </style>
         `)
     }
 
