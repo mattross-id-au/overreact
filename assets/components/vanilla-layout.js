@@ -89,9 +89,12 @@ customElements.define('vanilla-layout', class extends HTMLElement {
         const path = new URL(document.location.href).pathname;
         for(const linkElement of this.shadowRoot.querySelectorAll("a[href]")) {
             const thisPath = new URL(linkElement.href).pathname;
-            if(thisPath === path) {
+            if(thisPath === path && linkElement) {
                 linkElement.setAttribute("active","true");
-                linkElement.closest(".link-group").setAttribute("active","true");
+                const linkGroupElement = linkElement.closest(".link-group");
+                if(linkGroupElement) {
+                    linkGroupElement.setAttribute("active","true");
+                }
             }
         }
 
@@ -99,8 +102,17 @@ customElements.define('vanilla-layout', class extends HTMLElement {
             if(event.target !== this) {
                 this.shadowRoot.getElementById('menu-toggle').checked = true;
             }
-        })
+        });
 
+        // Umami analytics
+        let prodDomain = !!(document.location.origin.match('https://overreact.mattross.au'));
+        const umamiScriptElement = document.createElement("script");
+        umamiScriptElement.setAttribute("data-website-id", prodDomain ? 
+            'c2a6a2fc-207d-4b1f-8f42-59e69e5d4e09' : // Prod
+            '61582ee3-986f-4cc0-ac88-b5c8562957c7'   // Dev
+        );
+        umamiScriptElement.src = "https://overreact-umami.mattross.au/script.js";
+        document.head.append(umamiScriptElement);
     }
 });
 
