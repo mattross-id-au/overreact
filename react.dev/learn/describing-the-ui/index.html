@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-diff="diff">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,30 +9,23 @@
     <link rel="stylesheet" href="/global.css" />
     <script src="/assets/components/vanilla-layout.js" type="module"></script>
     <script src="/assets/components/diff-switcher.js" type="module"></script>
+    <script src="/assets/components/intro-block.js" type="module"></script>
     <script src="/assets/components/block-switcher.js" type="module"></script>
     <script src="/assets/components/code-mirror.js" type="module"></script>
     <script src="/assets/components/code-preview.js" type="module"></script>
+    <script src="/assets/components/code-ide.js" type="module"></script>
 </head>
 <body>
     <vanilla-layout>
         <main slot="main">
-        
-            <div class="full-width highlight-block">
-                <div class="main-grid">
-                    <div>
-                        <p>This is a remake of the official <a href="https://react.dev/learn" target="_blank" rel="noopener">React Quick Start tutorial</a> but using standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener">Web Components</a> instead of React components.</p>
-                        <p>Today, you can do a lot with standard in-browser HTML, CSS and JavaScript. No build tools, transpilers or complex hosting required. The code you write is the code that ships.</p>
-                    </div>
-                </div>
-            </div>
+
+            <intro-block href="https://react.dev/learn" text="React Describing the UI tutorial"></intro-block>
             
             <diff-switcher class="full-width"></diff-switcher>
 
-            
-
-            <div>
+            <section>
                 <h1>Describing the UI</h1>
-                <p>React is a JavaScript library for rendering user interfaces (UI). UI is built from small units like buttons, text, and images. React lets you combine them into reusable, nestable components. From web sites to phone apps, everything on the screen can be broken down into components. In this chapter, you&rsquo;ll learn to create, customize, and conditionally display React components.</p>
+                <p>React is a JavaScript library for rendering user interfaces (UI). UI is built from small units like buttons, text, and images. React lets you combine them into reusable, nestable <em>components</em>. From web sites to phone apps, everything on the screen can be broken down into components. In this chapter, you&rsquo;ll learn to create, customize, and conditionally display React components.</p>
                 
                 <div class="card">
                     <h2 style="font-size: 130%">In this chapter</h2>
@@ -48,43 +41,134 @@
                         <li>Why understanding your UI as trees is useful</li>
                     </ul>
                 </div>
+            </section>
 
-                <h2 id="your-first-component">Your first component </h2>
+
+            <section>
+
+                <h2 id="your-first-component">Your first component</h2>
+
                 <p class="whitespace-pre-wrap my-4">React applications are built from isolated pieces of UI called <em>components</em>. A React component is a JavaScript function that you can sprinkle with markup. Components can be as small as a button, or as large as an entire page. Here is a <code>Gallery</code> component rendering three <code>Profile</code> components:</p>
-            </div>
 
-            
-            <div class="wider" style="display:grid; grid-template-columns: 50% 50%; gap: 25px">
-                <code-mirror id="first-component-cm" class="del" src="/react.dev/learn/describing-the-ui/first-component.jsx" mode="jsx" linenumbers="true" readonly="false" label="React"></code-mirror>
-                <code-preview id="first-component-preview" wrapper="react"></code-preview>
-            </div>
-            <script>
-                let fc_cm =  document.getElementById('first-component-cm');
-                let fc_preview = document.getElementById('first-component-preview');
-                fc_cm.addEventListener('ready', (changeEvent) => {
-                    fc_preview.setSrcDoc(fc_cm.CodeMirror.doc.getValue());
-                });
-                fc_cm.addEventListener('change', (changeEvent) => {
-                    fc_preview.setSrcDoc(changeEvent.value);
-                });
-            </script>
-                
-            </div>
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/describing-the-ui/first-component.jsx" label="React"      mode="jsx"        slot="del" entry></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/first-component.js"    label="JavaScript" mode="javascript" slot="ins" entry="profile-gallery"></code-mirror>
+                </code-ide>
 
-            <div>
-                <p>The export default keywords specify the main component in the file. If you&rsquo;re not familiar with some piece of JavaScript syntax, <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export" target="_blank" rel="noopener">MDN</a> and <a href="https://javascript.info/import-export" target="_blank" rel="noopener">javascript.info</a> have great references.</p>
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/your-first-component/">Your First Component</a> to learn how to declare and use React components.</p>
+                    <a href="/react.dev/learn/your-first-component/" class="cta">
+                        Read more
+                        <span class="visually-hidden">about building your first component</span>
+                    </a>
+                </div>
+
+            </section>
+
+
+            <section>
+
+                <h2 id="importing-and-exporting-components">Importing and exporting components</h2>
+
+                <p>You can declare many components in one file, but large files can get difficult to navigate. To solve this, you can <em>export</em> a component into its own file, and then <em>import</em> that component from another file:</p>
+
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/describing-the-ui/import-export-gallery.jsx" label="React"      mode="jsx"        slot="del" entry tab="Gallery.js" tabid="Gallery"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/import-export-gallery.js"    label="JavaScript" mode="javascript" slot="ins" entry="profile-gallery" tab="profile-gallery.js" tabid="Gallery"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/import-export-profile.jsx" label="React"      mode="jsx"        slot="del" tab="Profile.js" tabid="Profile"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/import-export-profile.js"    label="JavaScript" mode="javascript" slot="ins" tab="person-profile.js" tabid="Profile"></code-mirror>
+                </code-ide>
+
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/importing-and-exporting-components/">Importing and Exporting Components</a> to learn how to split components into their own files.</p>
+                    <a href="/react.dev/learn/importing-and-exporting-components/" class="cta">
+                        Read more
+                        <span class="visually-hidden">about importing and exporting components</span>
+                    </a>
+                </div>
+
+            </section>
+
+
+            <section>
+                <h2 id="writing-markup">Writing markup with <del>JSX</del><ins> template literals </ins></h2>
+
+                <p>Each React component is a JavaScript function that may contain some markup that React renders into the browser. React components use a syntax extension called JSX to represent that markup. JSX looks a lot like HTML, but it is a bit stricter and can display dynamic information.</p>
+
+                <p>If we paste existing HTML markup into a React component, it won&rsquo;t always work:</p>
+
+                <code-ide class="wider">
+                     <code-mirror src="/react.dev/learn/describing-the-ui/writing-jsx-app.jsx" label="React"      mode="jsx"        slot="del" entry></code-mirror>
+                     <code-mirror src="/react.dev/learn/describing-the-ui/writing-jsx-app.js" label="JavaScript" mode="javascript" slot="ins" entry="todo-list"></code-mirror>
+                </code-ide>
+
+                <p>If you have existing HTML like this, <del>you can fix it using a <a href="https://transform.tools/html-to-jsx" target="_blank" rel="noopener">converter</a>:</del> <ins>it will work fine without any changes, but to be more technically correct you could write:</ins></p>
+
+                <code-ide class="wider">
+                     <code-mirror src="/react.dev/learn/describing-the-ui/writing-jsx-app-fixed.jsx" label="React"      mode="jsx"        slot="del" entry></code-mirror>
+                     <code-mirror src="/react.dev/learn/describing-the-ui/writing-jsx-app-fixed.js" label="JavaScript" mode="javascript" slot="ins" entry="todo-list"></code-mirror>
+                </code-ide>
+
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/writing-markup-with-jsx/">Writing Markup with JSX</a> to learn how to write valid JSX.</p>
+                    <a href="/react.dev/learn/writing-markup-with-jsx/" class="cta">
+                        Read more
+                        <span class="visually-hidden">about writing markup</span>
+                    </a>
+                </div>
                 
                 
-                
-                <h2 id="writing-markup">Writing markup with <del>JSX</del><ins>template literals</ins></h2>
-                <p>The markup syntax you&rsquo;ve seen above is called <del>JSX</del><ins>template literals or template strings</ins>. It is optional, but most React projects use JSX for its convenience. All of the <a href="https://react.dev/learn/installation">tools we recommend for local development</a> support JSX out of the box.</p>
-                <p>JSX is stricter than HTML. You have to close tags like <code>&lt;br /&gt;</code>. Your component also can&rsquo;t return multiple JSX tags. You have to wrap them into a shared parent, like a <code>&lt;div&gt;...&lt;/div&gt;</code> or an empty <code>&lt;&gt;...&lt;/&gt;</code> wrapper:</p>
-                <code-mirror class="del" src="/react.dev/learn/embed-about-page.jsx" mode="jsx" linenumbers="false" readonly="true"></code-mirror>
-                <p>If you have a lot of HTML to port to JSX, you can use an <a href="https://transform.tools/html-to-jsx" target="_blank" rel="noopener">online converter</a>.</p>
-                
-                
-                <h2 id="adding-styles">Adding styles</h2>
-            </div>
+            </section>
+
+
+            <section>
+
+                <h2 id="javascript-in-jsx-with-curly-braces">JavaScript in JSX with curly braces</h2>
+
+                <p>JSX lets you write HTML-like markup inside a JavaScript file, keeping rendering logic and content in the same place. Sometimes you will want to add a little JavaScript logic or reference a dynamic property inside that markup. In this situation, you can use curly braces in your JSX to &ldquo;open a window&rdquo; to JavaScript:</p>
+
+                <code-ide class="wider">
+                     <code-mirror src="/react.dev/learn/describing-the-ui/javascript-in-jsx.jsx" label="React"      mode="jsx"        slot="del" entry></code-mirror>
+                     <code-mirror src="/react.dev/learn/describing-the-ui/javascript-in-jsx.js" label="JavaScript" mode="javascript" slot="ins" entry="todo-list"></code-mirror>
+                </code-ide>
+
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/javascript-in-jsx-with-curly-braces/">JavaScript in JSX with Curly Braces</a> to learn how to access JavaScript data from JSX.</p>
+                    <a href="/react.dev/learn/javascript-in-jsx-with-curly-braces/" class="cta">
+                        Read more
+                        <span class="visually-hidden">about javascript in templates</span>
+                    </a>
+                </div>
+
+            </section>
+
+            <section>
+                <h2 id="passing-props-to-a-component">Passing props to a component</h2>
+                <p>React components use props to communicate with each other. Every parent component can pass some information to its child components by giving them props. Props might remind you of HTML attributes, but you can pass any JavaScript value through them, including objects, arrays, functions, and even JSX!</p>
+
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-app.jsx" label="React"      mode="jsx"        slot="del" entry tab="App.js" tabid="App"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-app.js"  label="JavaScript" mode="javascript" slot="ins" entry="person-profile" tab="app.js" tabid="App"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-utils.jsx" label="React"      mode="jsx"        slot="full" tab="utils.js" tabid="utils"></code-mirror>
+                    <!-- <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-utils.js"  label="JavaScript" mode="javascript" slot="ins" tab="utils.js" tabid="utils"></code-mirror> -->
+                </code-ide>
+
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/passing-props-to-a-component/">Passing Props to a Component</a> to learn how to pass and read props.</p>
+                    <a href="/react.dev/learn/passing-props-to-a-component/" class="cta">
+                        Read more
+                        <span class="visually-hidden">about passing information to a component</span>
+                    </a>
+                </div>
+
+            </section>
+
+
             
 
         </main>
