@@ -6,8 +6,8 @@
 
   --body-font:  "Bitter", serif;
   --heading-font: "Bitter", serif;
-  --base-font-size: 112.5%;  /* 18px */
   /* --base-font-size: 125%; /* 20px */
+  --base-font-size: 112.5%; /* 18px */
 
   --text-color: light-dark(#333b3c, #DADCDE);
   --text-color-strong: light-dark(oklch(0 0 0 / 1), oklch(1 0 0 / 1));
@@ -44,7 +44,8 @@
   --content-padding: 25px;
   --content-gutter: 50px;
 
-  --line-length: 55rem;
+  /* --line-length: 55rem; */
+  --line-length: 72ch;
   --main-grid-columns: [edge-start] var(--content-gutter) [gutter-start] 1fr [text-start] minmax(280px, var(--line-length))  [text-end] 1fr [gutter-end] var(--content-gutter) [edge-end];
 }
 
@@ -63,6 +64,7 @@ body {
   background-size: cover; /* Ensures the gradient covers the entire viewport */
   margin:0; padding:0;
 }
+
 
 @media (max-width: 1220px) { 
     :root {
@@ -85,7 +87,7 @@ h3 { font-size: 2.074rem; font-family: var(--heading-font); color: var(--text-co
 h4 { font-size: 1.728rem; font-family: var(--heading-font); color: var(--text-color-heading); }
 h5 { font-size: 1.44rem; font-family: var(--heading-font); }
 h6 { font-size: 1.2rem; font-family: var(--heading-font); }
-p { /*font-size: 1.11112rem;*/  line-height: 1.8; }
+p { /*font-size: 1.11112rem;*/  line-height: 1.8; margin-block-start: 1.5rem; margin-block-end: 1.5rem; }
 small { font-size: 0.833rem;  }
 
 strong { color: var(--text-color-strong) }
@@ -177,14 +179,48 @@ ins { text-decoration: none; }
  * LAYOUT *
  **********/
 
-main, .main-grid {
+main {
+    display: grid;
+    grid-template-columns: var(--main-grid-columns);
+}
+
+main > section {
+    grid-column: edge-start / edge-end;
+    display: grid;
+    grid-template-columns: subgrid;
+}
+
+main > *, main > section > * { 
+    grid-column: text-start / text-end; 
+    margin-bottom: 0;
+    margin-top: 2rem;
+}
+
+.wider { 
+    grid-column: gutter-start / gutter-end;
+}
+
+.full-width {
+    grid-column: edge-start / edge-end;
+}
+
+
+
+
+
+section + section { 
+    border-top: 1px solid var(--border-color); 
+    margin-top: 3rem; 
+}
+
+/* main, .main-grid {
     box-sizing: border-box;
     display: grid;
     grid-template-columns: var(--main-grid-columns);
 }
 
 main > *,  .main-grid > *, main > section > * {
-    grid-column: text-start / text-end; 
+    grid-column: text-start / text-end;
 }
 
 main > .wider,
@@ -192,6 +228,8 @@ main > .wider,
 section > .wider
 {
     grid-column: gutter-start / gutter-end;
+    display: grid;
+    grid-template-columns: subgrid;
 }
 
 main > .full-width,
@@ -217,7 +255,7 @@ pre {
     overflow: hidden;
     line-height: 1.7;
     font-size:75%;
-}
+} */
 
 
 
@@ -226,9 +264,10 @@ pre {
  ***********************/
 
 diff-switcher {
+    grid-column: edge-start / edge-end; 
+
     display: block;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -241,6 +280,7 @@ intro-block {
     
     display: grid; 
     grid-template-columns: var(--main-grid-columns);
+    margin: 0;
     
 }
 intro-block > p { 
@@ -272,6 +312,12 @@ main > .card, section > .card {
 }
 .card h2, .card h3 {
     margin-bottom: 1rem;
+}
+.card ul {
+    margin-left: 1.2rem;
+}
+.card li {
+    margin-bottom: 0.8rem;
 }
 
 

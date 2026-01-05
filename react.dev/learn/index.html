@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-diff="diff">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,28 +8,23 @@
     <link rel="icon" href="/assets/images/overreact-logo.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/global.css" />
     <script src="/assets/components/vanilla-layout.js" type="module"></script>
+    <script src="/assets/components/intro-block.js" type="module"></script>
     <script src="/assets/components/diff-switcher.js" type="module"></script>
     <script src="/assets/components/block-switcher.js" type="module"></script>
     <script src="/assets/components/code-mirror.js" type="module"></script>
+    <script src="/assets/components/code-preview.js" type="module"></script>
+    <script src="/assets/components/code-ide.js" type="module"></script>
 </head>
 <body>
     <vanilla-layout>
         <main slot="main">
-        
-            <div class="full-width highlight-block">
-                <div class="main-grid">
-                    <div>
-                        <p>This is a remake of the official <a href="https://react.dev/learn" target="_blank" rel="noopener">React Quick Start tutorial</a> but using standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener">Web Components</a> instead of React components.</p>
-                        <p>Today, you can do a lot with standard in-browser HTML, CSS and JavaScript. No build tools, transpilers or complex hosting required. The code you write is the code that ships.</p>
-                    </div>
-                </div>
-            </div>
+            <intro-block href="https://react.dev/learn" text="React Quick Start tutorial"></intro-block>
             
             <diff-switcher class="full-width"></diff-switcher>
 
             
 
-            <div>
+            <section>
                 <h1>Quick Start</h1>
                 <p>Welcome to <del>the React</del> <ins>Vanilla HTML, CSS and JavaScript</ins> documentation! This page will give you an introduction to 80% of the <del>React</del> <ins>Web component</ins> concepts that you will use on a daily basis.</p>
                 
@@ -44,14 +39,15 @@
                         <li>How to share data between components</li>
                     </ul>
                 </div>
+            </section>
 
 
-
+            <section>
                 <h2 id="components">Creating and nesting components</h2>
 
                 <p><del>React apps</del> <ins>Interactive websites</ins> are made out of <em>components</em>. A component is a piece of the UI (user interface) that has its own logic and appearance. A component can be as small as a button, or as large as an entire page.</p>
                 
-                <p><del>React components</del> <ins><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener">Web components</a></ins> are JavaScript <del>functions</del> <ins>classes</ins> that <del>return markup</del><ins><em>extend</em> the base HTMLElement</ins>:</p>
+                <p><del> React components </del> <ins><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener"> Web components </a></ins> are JavaScript <del> functions </del> <ins> classes </ins> that <del> return markup</del> <ins><em> extend </em> the base HTMLElement</ins>:</p>
 
                 <block-switcher element="html" attr="data-diff">
                     <block-switcher-panel value="diff, react">
@@ -74,21 +70,23 @@
                 </block-switcher>
                 
 
-                <p>Notice that &lt;my-button&gt;&lt;/my-button&gt; contains a hyphen. That&rsquo;s how you know it&rsquo;s a Custom Element. Custom Element names must always contain a hyphen, must be lowercase and must always have both an opening and closing tag.</p>
+                <p>Notice That
+                    <del><code>&lt;MyButton /&gt;</code> starts with a capital letter. That&rsquo;s how you know it&rsquo;s a React component. React component names must always start with a capital letter, while HTML tags must be lowercase.</del>
+                    <ins><code>&lt;my-button&gt;&lt;/my-button&gt;</code> contains a hyphen. That&rsquo;s how you know it&rsquo;s a Custom Element. Custom Element names must always contain a hyphen, must be lowercase and must always have both an opening and closing tag.</ins>
+                </p>
 
                 <p>Have a look at the result:</p>
-            </div>
-
-            <div class="wider" style="display:grid; grid-template-columns: 50% 50%;">
-                <code-mirror src="./welcome-to-my-app.txt" mode="html"></code-mirror>
-                <iframe src="./welcome-to-my-app.html" style="border: 0; align-self: stretch; justify-self: stretch; margin-top: 2rem; margin-bottom: 2rem; border-radius: var(--border-radius); overflow:hidden;"></iframe>
-            </div>
-
-            <div>
-                <p>The export default keywords specify the main component in the file. If you&rsquo;re not familiar with some piece of JavaScript syntax, <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export" target="_blank" rel="noopener">MDN</a> and <a href="https://javascript.info/import-export" target="_blank" rel="noopener">javascript.info</a> have great references.</p>
-
+            
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/welcome-to-my-app-react.js" label="React"      mode="jsx"        slot="del" entry></code-mirror>
+                    <code-mirror src="/react.dev/learn/welcome-to-my-app-wc.js"    label="JavaScript" mode="javascript" slot="ins" entry="my-app"></code-mirror>
+                </code-ide>
+            
+                <p><del>The export default keywords specify the main component in the file. If you&rsquo;re not familiar with some piece of JavaScript syntax, <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export" target="_blank" rel="noopener">MDN</a> and <a href="https://javascript.info/import-export" target="_blank" rel="noopener">javascript.info</a> have great references.</del></p>
+            </section>
 
 
+            </section>
                 <h2 id="writing-markup">Writing markup with <del>JSX</del><ins>template literals</ins></h2>
                 <p>The markup syntax you&rsquo;ve seen above is called <del>JSX</del><ins>template literals or template strings</ins>. It is optional, but most React projects use JSX for its convenience. All of the <a href="https://react.dev/learn/installation">tools we recommend for local development</a> support JSX out of the box.</p>
                 <p>JSX is stricter than HTML. You have to close tags like <code>&lt;br /&gt;</code>. Your component also can&rsquo;t return multiple JSX tags. You have to wrap them into a shared parent, like a <code>&lt;div&gt;...&lt;/div&gt;</code> or an empty <code>&lt;&gt;...&lt;/&gt;</code> wrapper:</p>
