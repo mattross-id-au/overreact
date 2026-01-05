@@ -202,6 +202,7 @@ main > *, main > section > * {
 
 .full-width {
     grid-column: edge-start / edge-end;
+    margin-top: 0;
 }
 
 
