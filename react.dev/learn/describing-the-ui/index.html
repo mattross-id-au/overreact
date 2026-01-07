@@ -146,15 +146,15 @@
 
             </section>
 
+
             <section>
                 <h2 id="passing-props-to-a-component">Passing props to a component</h2>
                 <p>React components use props to communicate with each other. Every parent component can pass some information to its child components by giving them props. Props might remind you of HTML attributes, but you can pass any JavaScript value through them, including objects, arrays, functions, and even JSX!</p>
 
                 <code-ide class="wider">
-                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-app.jsx" label="React"      mode="jsx"        slot="del" entry tab="App.js" tabid="App"></code-mirror>
-                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-app.js"  label="JavaScript" mode="javascript" slot="ins" entry="person-profile" tab="app.js" tabid="App"></code-mirror>
-                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-utils.jsx" label="React"      mode="jsx"        slot="full" tab="utils.js" tabid="utils"></code-mirror>
-                    <!-- <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-utils.js"  label="JavaScript" mode="javascript" slot="ins" tab="utils.js" tabid="utils"></code-mirror> -->
+                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-app.jsx" label="React"        mode="jsx"        slot="del" entry tab="App.js" tabid="App"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-app.js"  label="JavaScript"   mode="javascript" slot="ins" entry="person-profile" tab="app.js" tabid="App"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/passing-props-utils.jsx" label="JavaScript" mode="javascript" slot="full" tab="utils.js" tabid="utils"></code-mirror>
                 </code-ide>
 
                 <div class="card">
@@ -166,6 +166,118 @@
                     </a>
                 </div>
 
+            </section>
+
+
+            <section>
+
+                <h2 id="conditional-rendering">Conditional rendering</h2>
+                <p>Your components will often need to display different things depending on different conditions. In React, you can conditionally render JSX using JavaScript syntax like <code>if</code> statements, <code>&&</code>, and <code>? :</code> operators.</p>
+                <p>In this example, the JavaScript <code>&&</code> operator is used to conditionally render a checkmark:</p>
+
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/describing-the-ui/conditional-rendering.jsx" label="React"      mode="jsx"        slot="del" entry tab="App.js" tabid="App"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/conditional-rendering.js"  label="JavaScript" mode="javascript" slot="ins" entry="packing-list" tab="app.js" tabid="App"></code-mirror>
+                </code-ide>
+
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/conditional-rendering/">Conditional Rendering</a> to learn the different ways to render content conditionally.</p>
+                    <a href="/react.dev/learn/conditional-rendering/" class="cta">
+                        Read more
+                        <span class="visually-hidden">about conditional rendering</span>
+                    </a>
+                </div>
+
+            </section>
+
+
+            <section>
+
+                <h2 id="rendering-lists">Rendering lists</h2>
+                <p>You will often want to display multiple similar components from a collection of data. You can use JavaScript&rsquo;s <code>filter()</code> and <code>map()</code> with React to filter and transform your array of data into an array of components.</p>
+                <p>For each array item, you will need to specify a <code>key</code>. Usually, you will want to use an ID from the database as a <code>key</code>. Keys let React keep track of each item&rsquo;s place in the list even if the list changes.</p>
+
+                <code-ide class="wider" previewcss="ul { padding-inline-start: 20px; list-style-type: none; padding: 0px 10px; max-width:500px; } li { margin-bottom: 10px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; } img { width: 100px; height: 100px; border-radius: 50%; }">
+                    <code-mirror src="/react.dev/learn/describing-the-ui/rendering-lists-app.jsx" label="React"      mode="jsx"        slot="del" entry tab="App.js" tabid="App"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/rendering-lists-app.js"  label="JavaScript" mode="javascript" slot="ins" entry="scientist-list" tab="app.js" tabid="App"></code-mirror>
+
+                    <code-mirror src="/react.dev/learn/describing-the-ui/rendering-lists-data.js" label="JavaScript"      mode="javascript"        slot="full" tab="data.js" tabid="data"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/rendering-lists-utils.js" label="JavaScript"      mode="javascript"        slot="full" tab="utils.js" tabid="utils"></code-mirror>
+                </code-ide>
+
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/rendering-lists">Rendering Lists</a> to learn how to render a list of components, and how to choose a key.</p>
+                    <a href="/react.dev/learn/rendering-lists" class="cta">
+                        Read more
+                        <span class="visually-hidden">about rendering lists</span>
+                    </a>
+                </div>
+
+            </section>
+
+
+            <section>
+                <h2 id="keeping-components-pure">Keeping components pure</h2>
+                <p>Some JavaScript functions are pure. A pure function:</p>
+                <ul>
+                    <li><strong>Minds its own business.</strong> It does not change any objects or variables that existed before it was&nbsp;called.</li>
+                    <li><strong>Same inputs, same output.</strong> Given the same inputs, a pure function should always return the same&nbsp;result.</li>
+                </ul>
+                <p>By strictly only writing your components as pure functions, you can avoid an entire class of baffling bugs and unpredictable behavior as your codebase grows. Here is an example of an impure component:</p>
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/describing-the-ui/pure-components-bad.jsx" label="React"      mode="jsx"        slot="del" entry tab="App.js" tabid="App"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/pure-components-bad.js"  label="JavaScript" mode="javascript" slot="ins" entry="tea-set" tab="app.js" tabid="App"></code-mirror>
+                </code-ide>
+                <p>You can make this component pure by passing a prop instead of modifying a preexisting variable:</p>
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/describing-the-ui/pure-components-good.jsx" label="React"      mode="jsx"        slot="del" entry tab="App.js" tabid="App"></code-mirror>
+                    <code-mirror src="/react.dev/learn/describing-the-ui/pure-components-good.js"  label="JavaScript" mode="javascript" slot="ins" entry="tea-set" tab="app.js" tabid="App"></code-mirror>
+                </code-ide>
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/keeping-components-pure">Keeping Components Pure</a> to learn how to write components as pure, predictable functions.</p>
+                    <a href="/react.dev/learn/keeping-components-pure" class="cta">
+                        Read more
+                        <span class="visually-hidden">about pure components</span>
+                    </a>
+                </div>
+            </section>
+
+
+            <section>
+                <h2 id="your-ui-as-a-tree">Your UI as a tree</h2>
+                <p>React uses trees to model the relationships between components and modules.</p>
+                <p>A React render tree is a representation of the parent and child relationship between components.</p>
+                <figure>
+                    <img class="dark-only" width="500" height="250" src="generic_render_tree_dark.png" alt="A tree graph with five nodes, with each node representing a component. The root node is located at the top the tree graph and is labelled 'Root Component'. It has two arrows extending down to two nodes labelled 'Component A' and 'Component C'. Each of the arrows is labelled with 'renders'. 'Component A' has a single 'renders' arrow to a node labelled 'Component B'. 'Component C' has a single 'renders' arrow to a node labelled 'Component D'." />
+                    <img class="light-only" width="500" height="250" src="generic_render_tree_light.png" alt="A tree graph with five nodes, with each node representing a component. The root node is located at the top the tree graph and is labelled 'Root Component'. It has two arrows extending down to two nodes labelled 'Component A' and 'Component C'. Each of the arrows is labelled with 'renders'. 'Component A' has a single 'renders' arrow to a node labelled 'Component B'. 'Component C' has a single 'renders' arrow to a node labelled 'Component D'." />
+                    <figcaption>An example React render tree.</figcaption>
+                </figure>
+                <p>Components near the top of the tree, near the root component, are considered top-level components. Components with no child components are leaf components. This categorization of components is useful for understanding data flow and rendering performance.</p>
+                <p>Modelling the relationship between JavaScript modules is another useful way to understand your app. We refer to it as a module dependency tree.</p>
+                <figure>
+                    <img class="dark-only" width="500" height="250" src="generic_dependency_tree_dark.png" alt="A tree graph with five nodes. Each node represents a JavaScript module. The top-most node is labelled 'RootModule.js'. It has three arrows extending to the nodes: 'ModuleA.js', 'ModuleB.js', and 'ModuleC.js'. Each arrow is labelled as 'imports'. 'ModuleC.js' node has a single 'imports' arrow that points to a node labelled 'ModuleD.js'." />
+                    <img class="light-only" width="500" height="250" src="generic_dependency_tree_light.png" alt="A tree graph with five nodes. Each node represents a JavaScript module. The top-most node is labelled 'RootModule.js'. It has three arrows extending to the nodes: 'ModuleA.js', 'ModuleB.js', and 'ModuleC.js'. Each arrow is labelled as 'imports'. 'ModuleC.js' node has a single 'imports' arrow that points to a node labelled 'ModuleD.js'." />
+                    <figcaption>An example module dependency tree.</figcaption>
+                </figure>
+                <p>A dependency tree is often used by build tools to bundle all the relevant JavaScript code for the client to download and render. A large bundle size regresses user experience for React apps. Understanding the module dependency tree is helpful to debug such issues.</p>
+                <div class="card">
+                    <h3>Ready to learn this topic?</h3>
+                    <p>Read <a href="/react.dev/learn/understanding-your-ui-as-a-tree">Your UI as a Tree</a> to learn how to create a render and module dependency trees for a React app and how they’re useful mental models for improving user experience and performance.</p>
+                    <a href="/react.dev/learn/understanding-your-ui-as-a-tree" class="cta">
+                        Read more
+                        <span class="visually-hidden">about UI tree models</span>
+                    </a>
+                </div>
+            </section>
+
+
+            <section>
+                <h2 id="whats-next">What&rsquo;s next?</h2>
+                <p>Head over to <a href="/react.dev/learn/your-first-component">Your First Component</a> to start reading this chapter page by page!</p>
+                <p>Or, if you&rsquo;re already familiar with these topics, why not read about <a href="/react.dev/learn/adding-interactivity">Adding Interactivity</a>?</p>
             </section>
 
 

@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" data-diff="diff">
 <head>
-    <link rel="icon" href="data:image/png;base64,iVBORw0KGgo=">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Start - Vanilla Mastery</title>
+    <meta name="color-scheme" content="dark light">
+    <title>Tutorial: Tic-Tac-Toe - Overreact</title>
+    <link rel="icon" href="/assets/images/overreact-logo.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/global.css" />
-    
-    <script src="/assets/components/vanilla-layout.js"></script>
-    <script src="/assets/components/diff-switcher.js"></script>
-    <script src="/assets/components/remote-code-block.js"></script>
+    <script src="/assets/components/vanilla-layout.js" type="module"></script>
+    <script src="/assets/components/diff-switcher.js" type="module"></script>
+    <script src="/assets/components/intro-block.js" type="module"></script>
+    <script src="/assets/components/block-switcher.js" type="module"></script>
+    <script src="/assets/components/code-mirror.js" type="module"></script>
+    <script src="/assets/components/code-preview.js" type="module"></script>
+    <script src="/assets/components/code-ide.js" type="module"></script>
+    <script src="/assets/icons/lucide/notebook-text.js" type="module"></script>
+    <script src="/assets/components/under-construction.js" type="module"></script>
 </head>
 <body>
     <vanilla-layout>
         <main slot="main">
+            <intro-block href="https://react.dev/learn/tutorial-tic-tac-toe" text="Tic-Tac-Toe react Tutorial"></intro-block>
+            <diff-switcher></diff-switcher>
+            <h1>Tutorial: Tic-Tac-Toe</h1>
+            <p>You will build a small tic-tac-toe game during this tutorial. This tutorial does not assume any existing React knowledge. The techniques you’ll learn in the tutorial are fundamental to building any React app, and fully understanding it will give you a deep understanding of React.</p>
 
-            
-
-            <div class="card wider">
-                <p>This is a remake of the official <a href="https://react.dev/learn" target="_blank" rel="noopener">React Quick Start tutorial</a>, edited to use standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener">Web Components</a> instead of React components.</p>
-                <p>Today, you can do a lot with standard in-browser HTML, CSS and JavaScript. No build tools, transpilers or complex hosting required. The code you write is the code that ships.</p>
+            <div class="card card-note">
+                <h2><notebook-text></notebook-text>Note</h2>
+                <p>This tutorial is designed for people who prefer to <strong>learn by doing</strong> and want to quickly try making something tangible. If you prefer learning each concept step by step, start with <a href="/react.dev/learn/describing-the-ui">Describing the UI</a>.</p>
             </div>
 
-            <diff-switcher></diff-switcher>
-
-
-
-            <h1>Tutorial: Tic-Tac-Toe</h1>
+            <under-construction></under-construction>
 
         </main>
 

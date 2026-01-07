@@ -7,18 +7,14 @@
     <title>Quick Start - Vanilla Mastery</title>
     <link rel="stylesheet" href="/global.css" />
     
-    <script src="/assets/components/vanilla-layout.js"></script>
-    <script src="/assets/components/diff-switcher.js"></script>
+    <script src="/assets/components/vanilla-layout.js" type="module"></script>
+    <script src="/assets/components/intro-block.js" type="module"></script>
+    <script src="/assets/components/diff-switcher.js" type="module"></script>
 </head>
 <body>
     <vanilla-layout>
         <main slot="main">
-
-            <div class="highlight-block">
-                <p>This is a remake of the official <a href="https://react.dev/learn" target="_blank" rel="noopener">React Quick Start tutorial</a> but using standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener">Web Components</a> instead of React components.</p>
-                <p>Today, you can do a lot with standard in-browser HTML, CSS and JavaScript. No build tools, transpilers or complex hosting required. The code you write is the code that ships.</p>
-            </div>
-
+            <intro-block href="https://react.dev/learn/installation" text="React installation page"></intro-block>
             <diff-switcher></diff-switcher>
 
 

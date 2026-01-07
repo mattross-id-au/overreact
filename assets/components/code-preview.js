@@ -1,5 +1,5 @@
 class CodePreview extends HTMLElement {
-    static observedAttributes = ["srcdoc","id", "wrapper", "entry","entryfile"];
+    static observedAttributes = ["srcdoc","id", "wrapper", "entry","entryfile","previewcss"];
     #entry = '';
     #entryfile = '';
 
@@ -12,6 +12,7 @@ class CodePreview extends HTMLElement {
                 <head>
                     ${ this.appendHeaders() }
                     ${ this.appendConsoleShim() }
+                    <style> ${this.#previewcss}</style>
                 </head>
                 <body>${content}</body>
                 </html>
@@ -77,6 +78,7 @@ class CodePreview extends HTMLElement {
     #activeWrapperName = "plain";
     #activeWrapper = CodePreview.srcWrappers.get(this.#activeWrapperName);
     #rawContentStr = '';
+    #previewcss = '';
 
 
 
@@ -112,6 +114,9 @@ class CodePreview extends HTMLElement {
         if(property=="entryfile") {
             this.#entryfile = newValue;
             //this.setSrcDoc();
+        }
+        if(property=="previewcss") {
+            this.#previewcss = newValue;
         }
         
     }
@@ -216,6 +221,9 @@ class CodePreview extends HTMLElement {
                 margin: 20px;
                 border-radius: 50%;
                 }
+
+                /* Preview CSS */
+                ${this.#previewcss}
 
             </style>
         `)

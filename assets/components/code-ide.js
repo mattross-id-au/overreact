@@ -33,6 +33,9 @@ class CodeIDE extends HTMLElement {
                         "code-del preview-del"
                         "code-ins preview-ins";
                     gap: 0px;
+
+                    max-width: 1800px;
+                    margin: 0 auto;
                 }
 
                 .tabs { grid-area: tabs; padding: 0 2rem; }
@@ -152,8 +155,8 @@ class CodeIDE extends HTMLElement {
                 <div class="code-full">
                     <slot name="full"></slot>
                 </div>
-                <code-preview class="preview-del" wrapper="react"></code-preview>
-                <code-preview class="preview-ins" wrapper="react"></code-preview>
+                <code-preview class="preview-del" wrapper="react" previewcss="${this.getAttribute('previewcss')}"></code-preview>
+                <code-preview class="preview-ins" wrapper="react" previewcss="${this.getAttribute('previewcss')}"></code-preview>
             </div>
         `;
 
