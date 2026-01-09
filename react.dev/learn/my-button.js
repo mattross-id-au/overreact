@@ -1,5 +1,6 @@
 customElements.define('my-button', class extends HTMLElement {
-  connectedCallback() {
+  constructor() {
+    super();
     this.innerHTML = `<button>I'm a button</button>`;
   }
 });

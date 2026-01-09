@@ -88,6 +88,8 @@ h4 { font-size: 1.728rem; font-family: var(--heading-font); color: var(--text-co
 h5 { font-size: 1.44rem; font-family: var(--heading-font); }
 h6 { font-size: 1.2rem; font-family: var(--heading-font); }
 p { /*font-size: 1.11112rem;*/  line-height: 1.8; margin-block-start: 1.5rem; margin-block-end: 1.5rem; }
+dt { line-height: 1.8; margin-block-start: 0.8rem; margin-block-end: 0.8rem; }
+dd { line-height: 1.4; }
 small { font-size: 0.833rem;  }
 
 strong { color: var(--text-color-strong) }
@@ -320,7 +322,7 @@ main > .card, section > .card {
     margin-bottom: 2rem;
 }
 
-.card p, .card h2, .card h3, .card ul, .card button, .card a.cta {
+.card p, .card h2, .card h3, .card ul, .card button, .card a.cta, .card dl {
     margin-left: var(--card-padding); 
     margin-right: var(--card-padding); 
 }
@@ -334,7 +336,7 @@ main > .card, section > .card {
     margin-bottom: 0.8rem;
 }
 
-.card-note h2, .card-note h3 {
+.card-note h2, .card-note h3, .card-editor-note h2, .card-editor-note h3 {
     font-size: 130%;
     display: grid;
     grid-template-columns: 24px auto;
@@ -342,10 +344,19 @@ main > .card, section > .card {
     align-items: center;
 }
 
-.card-note h2 svg, .card-note h3 svg { 
+.card-note h2 svg, .card-note h3 svg, .card-editor-note h2 svg, .card-editor-note h3 svg { 
     display: block; 
     width: 24px;
     height: 24px;
+}
+
+[data-diff=react] .card-editor-note { display: none;}
+.card-editor-note {
+    --offset: -110;
+    background: oklch(from var(--highlight-background) l c calc(h + var(--offset)));
+    h2 {
+        color: oklch(from var(--text-color-heading) l c calc(h + var(--offset)));
+    }
 }
 
 .highlight-block {
@@ -358,10 +369,8 @@ main > .card, section > .card {
  *   CODE BLOCKS   *
  ******************/
 
-block-switcher-panel {
-    display: block;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
+switcher-panel + switcher-panel {
+    margin-top: 0;
 }
 
 code-mirror {

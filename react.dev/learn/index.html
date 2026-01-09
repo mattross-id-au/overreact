@@ -10,10 +10,11 @@
     <script src="/assets/components/vanilla-layout.js" type="module"></script>
     <script src="/assets/components/intro-block.js" type="module"></script>
     <script src="/assets/components/diff-switcher.js" type="module"></script>
-    <script src="/assets/components/block-switcher.js" type="module"></script>
+    <script src="/assets/components/switcher-panel.js" type="module"></script>
     <script src="/assets/components/code-mirror.js" type="module"></script>
     <script src="/assets/components/code-preview.js" type="module"></script>
     <script src="/assets/components/code-ide.js" type="module"></script>
+    <script src="/assets/icons/lucide/graduation-cap.js" type="module"></script>
 </head>
 <body>
     <vanilla-layout>
@@ -49,25 +50,36 @@
                 
                 <p><del> React components </del> <ins><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener"> Web components </a></ins> are JavaScript <del> functions </del> <ins> classes </ins> that <del> return markup</del> <ins><em> extend </em> the base HTMLElement</ins>:</p>
 
-                <block-switcher element="html" attr="data-diff">
-                    <block-switcher-panel value="diff, react">
-                        <code-mirror class="del" src="./my-button-react.js" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
-                    </block-switcher-panel>
-                    <block-switcher-panel value="diff, wc">
-                        <code-mirror class="ins" src="./my-button.js" mode="jsx" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>    
-                    </block-switcher-panel>
-                </block-switcher>
+
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="./my-button.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="./my-button.js" mode="jsx" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>    
+                </switcher-panel>
+
+
+                <div class="card card-editor-note">
+                    <h2><graduation-cap></graduation-cap>Note on Shadow DOM</h2>
+                    <p>When rendering component child elements, the choice between attaching a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM" target="_blank" rel="noopener">Shadow&nbsp;DOM</a> or using the Main DOM will mostly depend on the type of contents:</p>
+                    <dl>
+                        <dt>Attach a Shadow DOM</dt>
+                        <dd>when the component is a self-contained <em>widget</em> not part of the main document, and child elements are for presenting the widget</dd>
+                        <dt>Main DOM</dt>
+                        <dd>When the component is generating child elements are to be part of the main document flow</dd>
+                    </dl>
+                </div>
 
                 <p>Now that you&rsquo;ve declared <code><del>MyButton</del></code> <code><ins>my-button</ins></code>, you can nest it into another component:</p>
                 
-                <block-switcher element="html" attr="data-diff">
-                    <block-switcher-panel value="diff, react">
-                        <code-mirror class="del" src="./my-app-react.js" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
-                    </block-switcher-panel>
-                    <block-switcher-panel value="diff, wc">
-                        <code-mirror class="ins" src="./my-app.js" mode="jsx" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
-                    </block-switcher-panel>
-                </block-switcher>
+                
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="./my-app.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="./my-app.js" mode="jsx" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
+                </switcher-panel>
+                
                 
 
                 <p>Notice That

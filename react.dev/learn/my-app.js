@@ -1,5 +1,6 @@
 customElements.define('my-app', class extends HTMLElement {
-  connectedCallback() {
+  constructor() {
+    super();
     this.innerHTML = `
       <div>
         <h1>Welcome to my app</h1>
