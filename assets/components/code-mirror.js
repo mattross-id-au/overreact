@@ -84,12 +84,14 @@ class CodeMirrorElement extends HTMLElement {
 
                 }
                 .label-empty { display: none; }
-                :host([slot="del"]) [data-diff=diff] .label span {
+                :host([slot="del"]) [data-diff=diff] .label span,
+                :host(.del) [data-diff=diff] .label span {
                     color: oklch(from var(--text-color) l c h / 0.7); 
                     text-decoration: line-through;
                     text-decoration-color: #800000;
                 }
-                :host([slot="ins"]) [data-diff=diff] .label span {
+                :host([slot="ins"]) [data-diff=diff] .label span,
+                :host(.ins) [data-diff=diff] .label span {
                     padding: 0.2rem 0.3rem;
                     text-decoration: none; 
                     background-color: oklch(77.636% 0.17048 110.928 / 0.1); 
