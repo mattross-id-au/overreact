@@ -5,7 +5,8 @@ let html = String.raw;
     await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.min.js');
     await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js');
     await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/jsx/jsx.min.js');
-    
+    await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js');
+
     customElements.define('code-mirror', CodeMirrorElement); 
     globalThis.dispatchEvent(new Event("ready"));
 
@@ -54,9 +55,11 @@ class CodeMirrorElement extends HTMLElement {
                     /*--editor-background-color: oklch(from var(--page-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);    */
                     --editor-background-color: var(--highlight-background);
                     --highlight-line-color: oklch(from var(--editor-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);
+                    --highlight-line-color: oklch(0.77636 0.17048 110.928 / 0.1);
+                    --highlight-line-color: light-dark(rgba(0, 0, 0, 0.063), rgba(255, 255, 255, 0.063));
                     
 
-                    padding: 10px 10px 10px 5px; 
+                    padding: 10px 0;
                     border-radius: var(--border-radius);
                     &.cm-s-ayu-mirage, &.cm-s-ayu-mirage .CodeMirror-gutters  {
                         background: var(--editor-background-color)
@@ -288,7 +291,7 @@ class CodeMirrorElement extends HTMLElement {
             if(start && !end) { end = start }
             for(let i = parseInt(start); i <= parseInt(end); i++) {
                 result += `
-                    .CodeMirror-code div:nth-child(${i}) {
+                    .CodeMirror-code div:nth-child(${i}), .CodeMirror-code pre.CodeMirror-line:nth-child(${i}) {
                         background-color: var(--highlight-line-color);
                     }
                 `

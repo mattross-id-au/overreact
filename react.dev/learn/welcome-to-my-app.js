@@ -1,6 +1,10 @@
 customElements.define('my-button', class extends HTMLElement {
-  connectedCallback() {
-    this.innerHTML = `<button>I'm a button</button>`;
+  constructor() {
+    super();
+    this.attachShadow({mode:'open'});
+    this.shadowRoot.innerHTML = `
+      <button>I'm a button</button>
+    `;
   }
 });
 

@@ -48,8 +48,7 @@
 
                 <p><del>React apps</del> <ins>Interactive websites</ins> are made out of <em>components</em>. A component is a piece of the UI (user interface) that has its own logic and appearance. A component can be as small as a button, or as large as an entire page.</p>
                 
-                <p><del> React components </del> <ins><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener"> Web components </a></ins> are JavaScript <del> functions </del> <ins> classes </ins> that <del> return markup</del> <ins><em> extend </em> the base HTMLElement</ins>:</p>
-
+                <p><del> React components </del> <ins><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements" target="_blank" rel="noopener"> Custom Elements </a></ins> are JavaScript <del> functions </del> <ins> classes </ins> that <del> return markup</del> <ins><em> extend </em> the base <code>HTMLElement</code> class</ins>:</p>
 
                 <switcher-panel value="diff, react">
                     <code-mirror class="del" src="./my-button.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
@@ -58,20 +57,7 @@
                     <code-mirror class="ins" src="./my-button.js" mode="jsx" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>    
                 </switcher-panel>
 
-
-                <div class="card card-editor-note">
-                    <h2><graduation-cap></graduation-cap>Note on Shadow DOM</h2>
-                    <p>When rendering component child elements, the choice between attaching a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM" target="_blank" rel="noopener">Shadow&nbsp;DOM</a> or using the Main DOM will mostly depend on the type of contents:</p>
-                    <dl>
-                        <dt>Attach a Shadow DOM</dt>
-                        <dd>when the component is a self-contained <em>widget</em> not part of the main document, and child elements are for presenting the widget</dd>
-                        <dt>Main DOM</dt>
-                        <dd>When the component is generating child elements are to be part of the main document flow</dd>
-                    </dl>
-                </div>
-
                 <p>Now that you&rsquo;ve declared <code><del>MyButton</del></code> <code><ins>my-button</ins></code>, you can nest it into another component:</p>
-                
                 
                 <switcher-panel value="diff, react">
                     <code-mirror class="del" src="./my-app.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
@@ -79,8 +65,6 @@
                 <switcher-panel value="diff, wc">
                     <code-mirror class="ins" src="./my-app.js" mode="jsx" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
                 </switcher-panel>
-                
-                
 
                 <p>Notice That
                     <del><code>&lt;MyButton /&gt;</code> starts with a capital letter. That&rsquo;s how you know it&rsquo;s a React component. React component names must always start with a capital letter, while HTML tags must be lowercase.</del>
@@ -90,25 +74,66 @@
                 <p>Have a look at the result:</p>
             
                 <code-ide class="wider">
-                    <code-mirror src="/react.dev/learn/welcome-to-my-app-react.js" label="React"      mode="jsx"        slot="del" entry></code-mirror>
-                    <code-mirror src="/react.dev/learn/welcome-to-my-app-wc.js"    label="JavaScript" mode="javascript" slot="ins" entry="my-app"></code-mirror>
+                    <code-mirror src="/react.dev/learn/welcome-to-my-app.jsx" label="React"      mode="jsx"        slot="del" entry></code-mirror>
+                    <code-mirror src="/react.dev/learn/welcome-to-my-app.js"  label="JavaScript" mode="javascript" slot="ins" entry="my-app"></code-mirror>
                 </code-ide>
             
                 <p><del>The export default keywords specify the main component in the file. If you&rsquo;re not familiar with some piece of JavaScript syntax, <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export" target="_blank" rel="noopener">MDN</a> and <a href="https://javascript.info/import-export" target="_blank" rel="noopener">javascript.info</a> have great references.</del></p>
+
+                <div class="card card-editor-note">
+                    <h2><graduation-cap></graduation-cap>Note on Shadow DOM</h2>
+                    <p>In the example above, the <code>my-button</code> element uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM" target="_blank" rel="noopener">Shadow DOM</a> for it's child components as they make up self-contained functionality with encapsulated behaviour.</p>
+                    <p><code>my-app</code> on the other hand inserts page content for it's child elements, so we keep the generated elements in the main DOM.</p>
+                </div>
             </section>
 
 
-            </section>
+            <section>
                 <h2 id="writing-markup">Writing markup with <del>JSX</del><ins>template literals</ins></h2>
-                <p>The markup syntax you&rsquo;ve seen above is called <del>JSX</del><ins>template literals or template strings</ins>. It is optional, but most React projects use JSX for its convenience. All of the <a href="https://react.dev/learn/installation">tools we recommend for local development</a> support JSX out of the box.</p>
-                <p>JSX is stricter than HTML. You have to close tags like <code>&lt;br /&gt;</code>. Your component also can&rsquo;t return multiple JSX tags. You have to wrap them into a shared parent, like a <code>&lt;div&gt;...&lt;/div&gt;</code> or an empty <code>&lt;&gt;...&lt;/&gt;</code> wrapper:</p>
-                <code-mirror class="del" src="/react.dev/learn/embed-about-page.jsx" mode="jsx" linenumbers="false" readonly="true"></code-mirror>
-                <p>If you have a lot of HTML to port to JSX, you can use an <a href="https://transform.tools/html-to-jsx" target="_blank" rel="noopener">online converter</a>.</p>
+                <p>The markup syntax you&rsquo;ve seen above is called <del>JSX</del><ins><a  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals" target="_blank" rel="noopener">template literals or template strings</a></ins>. It is optional, but most <del>React</del> projects use <del>JSX</del> <ins>template literals</ins> for its convenience. All <del>of the <a href="https://react.dev/learn/installation">tools we recommend for local development</a></del><ins>modern browsers</ins> support <del>JSX</del><ins>template literals</ins> out of the box.</p>
+                <p><del>JSX is stricter than</del><ins>Template literals can be any</ins> HTML. You <ins>don't</ins> have to close tags like <code>&lt;br /&gt;</code>. Your component <del>also can&rsquo;t</del><ins>can</ins> return multiple <del>JSX</del><ins>HTML</ins> tags. You <ins>don&rsquo;t</ins> have to wrap them into a shared parent, like a <code>&lt;div&gt;...&lt;/div&gt;</code> or an empty <code>&lt;&gt;...&lt;/&gt;</code> wrapper:</p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="/react.dev/learn/about-page.jsx" mode="jsx" linenumbers="false" readonly="true" highlights="3,6" label="React with JSX"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="/react.dev/learn/about-page.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript with a Template Literal"></code-mirror>
+                </switcher-panel>
+                <p><del>If you have a lot of HTML to port to JSX, you can use an <a href="https://transform.tools/html-to-jsx" target="_blank" rel="noopener">online converter</a>.</del></p>
                 
                 
+            </section>
 
+            <section>
                 <h2 id="adding-styles">Adding styles</h2>
-            </div>
+                <p><del>In React, you specify a CSS class with <code>className</code>. It works the same way as the HTML class attribute:</del><ins>With Custom Elements, you use the class attribute as per normal. Don't use className as you would in React:</ins></p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="adding-styles.jsx" mode="jsx" linenumbers="false" readonly="true" label="React JSX"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="adding-styles.html" mode="html" linenumbers="false" readonly="true" label="HTML"></code-mirror>
+                </switcher-panel>
+                <p>Then you write the CSS rules for it in a separate CSS file <ins>or in a style tag just like normal. CSS Styles linked or declared in the Shadow DOM don't leak in to the main DOM.</ins>:</p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="adding-styles-css-react.css" mode="css" linenumbers="false" readonly="true" label="External CSS"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="adding-styles-css.html" mode="html" linenumbers="false" readonly="true" label="HTML"></code-mirror>
+                </switcher-panel>
+                <p><del>React</del><ins>Custom Elements</ins> does not prescribe how you add CSS files. In the simplest case, you&rsquo;ll add a &lt;link&gt; <ins>or &lt;style&gt;</ins>tag to your HTML. If you use a build tool or a framework, consult its documentation to learn how to add a CSS file to your project.</p>
+            </section>
+
+             <section>
+                <h2 id="displaying-data">Displaying data </h2>
+                <p><del>JSX</del><ins>Template literals</ins> lets you put markup into JavaScript <ins>strings</ins>. Curly braces let you “escape back” into JavaScript so that you can embed some variable from your code and display it to the user. For example, this will display <code>user.name</code>:</p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="displaying-data.jsx" mode="jsx" linenumbers="false" readonly="true" label="React JSX"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="displaying-data.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript template literal"></code-mirror>
+                </switcher-panel>
+
+                <p>You can also &ldquo;escape into JavaScript&rdquo; from <del>JSX</del> attributes, but you have to use curly braces <em><del>instead of</del><ins>as well as</ins></em> quotes. For example, <del><code>className="avatar"</code></del><ins><code>class="avatar"</code></ins> passes the <code>"avatar"</code> string as the CSS class, but <code>src={user.imageUrl}</code> reads the JavaScript <code>user.imageUrl</code> variable value, and then passes that value as the <code>src</code> attribute:</p>
+             </section>
             
 
         </main>

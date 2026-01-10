@@ -3,18 +3,20 @@
 <head>
   <script>
     customElements.define('my-button', class extends HTMLElement {
-      connectedCallback() {
-        this.innerHTML = `<button>I'm a button</button>`;
+      constructor() {
+        super();
+        this.attachShadow({mode:'open'});
+        this.shadowRoot.innerHTML = `
+          <button>I'm a button</button>
+        `;
       }
     });
 
     customElements.define('my-app', class extends HTMLElement {
       connectedCallback() {
         this.innerHTML = `
-          <div>
             <h1>Welcome to my app</h1>
             <my-button></my-button>
-          </div>
         `;
       }
     });

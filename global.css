@@ -94,7 +94,7 @@ small { font-size: 0.833rem;  }
 
 strong { color: var(--text-color-strong) }
 code { font-size: 14px; }
-p code { background-color: #FFFFFF10; padding-top: 0.2em; padding-bottom: 0.2em; }
+p code { background-color: light-dark(rgba(0, 0, 0, 0.063), rgba(255, 255, 255, 0.063)); padding: 0.2em; }
 
 a.cta {
     color: var(--text-color-highlight);
@@ -126,10 +126,6 @@ a.cta::after {
   top: -2px;
 }
 
-del, ins {
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-}
 ins { text-decoration: none; }
 
 figure { align-items: center; }
@@ -177,6 +173,7 @@ figcaption { text-align: center; padding: 2rem; }
         border-radius: 50% / 1.1rem 0.5rem 0.9rem 0.7rem;
         box-decoration-break: clone;
     }
+    del, ins { padding: 0.2em 0.2em; }
 }
 
 [data-diff=wc] {
@@ -207,8 +204,8 @@ main > section {
 
 main > *, main > section > * { 
     grid-column: text-start / text-end; 
-    margin-bottom: 0;
-    margin-top: 2rem;
+    /* margin-top: 0;
+    margin-bottom: 2rem; */
 }
 
 .wider { 
@@ -217,8 +214,10 @@ main > *, main > section > * {
 
 .full-width {
     grid-column: edge-start / edge-end;
-    margin-top: 0;
+    margin-bottom: 0;
 }
+
+main > *, main > section > p { margin-top: 0.75em; margin-bottom: 0.75em; }
 
 
 
@@ -314,8 +313,12 @@ intro-block > p {
     --card-padding: calc(var(--content-padding) * 1.8);
 }
 
+.card:first-child { margin-top: 0; }
+.card:last-child { margin-bottom: 0; }
+
 .card > *:first-child { margin-top: 0; margin-top: var(--card-padding); }
 .card > *:last-child { margin-bottom: 0; margin-bottom: var(--card-padding); }
+
 
 main > .card, section > .card {
     margin-top: 2rem;
@@ -387,6 +390,7 @@ code-preview {
 
 code-ide {
     display: block;
+    margin: 1rem 0;
 }
 
 code-ide > code-mirror {

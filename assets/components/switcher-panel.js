@@ -24,9 +24,7 @@ class SwitcherPanel extends HTMLElement {
     }
 
     connectedCallback() {
-        console.log('bllock-switcher2, connectedCallback()', this);
         if(!this.#controlElement) {
-            console.log('this.element=html [done]', this);
             this.element = "html";
         }
     }
@@ -47,7 +45,6 @@ class SwitcherPanel extends HTMLElement {
     }
 
     updateObserver() {
-        console.log('updateObserver()')
         this.observer = this.observer || new MutationObserver((mutationList, observer) => {
             let needsCheck = false;
             for(const mutationRecord of mutationList) {
@@ -80,7 +77,7 @@ class SwitcherPanel extends HTMLElement {
         } else if (typeof elementSelector == "string") {
             element = document.querySelector(elementSelector);
         }
-        console.log('block-swither2 - set element() element::', element);
+
         if(!element) {
             if(this.#observer) {
                 this.#observer.disconnect();
