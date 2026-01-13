@@ -11,8 +11,8 @@ customElements.define('my-button', class extends HTMLElement {
 customElements.define('my-app', class extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-        <h1>Welcome to my app</h1>
-        <my-button></my-button>
+      <h1>Welcome to my app</h1>
+      <my-button></my-button>
     `;
   }
 });

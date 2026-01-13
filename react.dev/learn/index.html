@@ -133,6 +133,27 @@
                 </switcher-panel>
 
                 <p>You can also &ldquo;escape into JavaScript&rdquo; from <del>JSX</del> attributes, but you have to use curly braces <em><del>instead of</del><ins>as well as</ins></em> quotes. For example, <del><code>className="avatar"</code></del><ins><code>class="avatar"</code></ins> passes the <code>"avatar"</code> string as the CSS class, but <code>src={user.imageUrl}</code> reads the JavaScript <code>user.imageUrl</code> variable value, and then passes that value as the <code>src</code> attribute:</p>
+
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="displaying-data-attributes.jsx" mode="jsx" linenumbers="false" readonly="true" label="React JSX"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="displaying-data-attributes.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript template literal"></code-mirror>
+                </switcher-panel>
+                <p>You can put more complex expressions inside the JSX curly braces too, for example, <a href="https://javascript.info/operators#string-concatenation-with-binary" target="_blank" rel="noopener">string concatenation</a>:</p>
+
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/profile.jsx" label="React"      mode="jsx"        slot="del" entry></code-mirror>
+                    <code-mirror src="/react.dev/learn/profile.js"  label="JavaScript" mode="javascript" slot="ins" entry="person-profile"></code-mirror>
+                </code-ide>
+                <p>In the above example, <del><code>style={{}}</code></del><ins><code>style=""</code></ins> is not a special syntax, but a regular <ins>string.</ins><del><code>{}</code> object inside the <code>style={ }</code> JSX curly braces. You can use the <code>style</code> attribute when your styles depend on JavaScript variables.</del></p>
+
+                <div class="card card-editor-note">
+                    <h2><graduation-cap></graduation-cap>Applying JavaScript style objects</h2>
+                    <p>If you want to define styles in JavaScript and apply them to an HTML element, you can:</p>
+                    <code-mirror src="/react.dev/learn/js-styles.js" mode="javascript" readonly="true" linenumbers="false"></code-mirror>
+                </div>
+
              </section>
             
 

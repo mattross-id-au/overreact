@@ -53,7 +53,8 @@ class CodeMirrorElement extends HTMLElement {
                     /* height: 200px; */
                     width: 100%;
                     /*--editor-background-color: oklch(from var(--page-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);    */
-                    --editor-background-color: var(--highlight-background);
+                    /* --editor-background-color: var(--highlight-background); */
+                    --editor-background-color: transparent;
                     --highlight-line-color: oklch(from var(--editor-background-color) calc(l * 1.2) calc(c * 1.2) h / 1);
                     --highlight-line-color: oklch(0.77636 0.17048 110.928 / 0.1);
                     --highlight-line-color: light-dark(rgba(0, 0, 0, 0.063), rgba(255, 255, 255, 0.063));

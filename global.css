@@ -329,6 +329,7 @@ main > .card, section > .card {
     margin-left: var(--card-padding); 
     margin-right: var(--card-padding); 
 }
+
 .card h2, .card h3 {
     margin-bottom: 1rem;
 }
@@ -337,6 +338,12 @@ main > .card, section > .card {
 }
 .card li {
     margin-bottom: 0.8rem;
+}
+
+.card code-mirror { 
+    background-color: transparent;
+    margin-left: calc(var(--card-padding) - 16px); 
+    margin-right: calc(var(--card-padding) - 16px); 
 }
 
 .card-note h2, .card-note h3, .card-editor-note h2, .card-editor-note h3 {
