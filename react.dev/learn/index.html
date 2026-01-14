@@ -122,7 +122,7 @@
                 <p><del>React</del><ins>Custom Elements</ins> does not prescribe how you add CSS files. In the simplest case, you&rsquo;ll add a &lt;link&gt; <ins>or &lt;style&gt;</ins>tag to your HTML. If you use a build tool or a framework, consult its documentation to learn how to add a CSS file to your project.</p>
             </section>
 
-             <section>
+            <section>
                 <h2 id="displaying-data">Displaying data </h2>
                 <p><del>JSX</del><ins>Template literals</ins> lets you put markup into JavaScript <ins>strings</ins>. Curly braces let you “escape back” into JavaScript so that you can embed some variable from your code and display it to the user. For example, this will display <code>user.name</code>:</p>
                 <switcher-panel value="diff, react">
@@ -154,7 +154,40 @@
                     <code-mirror src="/react.dev/learn/js-styles.js" mode="javascript" readonly="true" linenumbers="false"></code-mirror>
                 </div>
 
-             </section>
+            </section>
+
+            <section>
+                <h2 id="conditional-rendering">Conditional rendering</h2>
+                <p>In <del>React</del><ins>Custom Elements</ins>, there is no special syntax for writing conditions. Instead, you&rsquo;ll use the same techniques as you use when writing regular JavaScript code. For example, you can use an if statement to conditionally include <del>JSX</del><ins>a string defined using a template literal</ins>:</p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="conditional-rendering-long.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="conditional-rendering-long.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
+                </switcher-panel>
+                <p>If you prefer more compact code, you can use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator" taret="_blank" rel="noopener">conditional <code>?</code> operator</a>. Unlike <code>if</code>, it works inside <del>JSX</del><ins>template literals</ins>:</p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="conditional-rendering-compact.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="conditional-rendering-compact.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
+                </switcher-panel>
+                <p>When you don’t need the else branch, you <del>can also use a shorter <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND#short-circuit_evaluation" taret="_blank" rel="noopener">logical <code>&&</code> syntax</a></del><ins>can use the <code>?</code> operator like so</ins>:</p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="conditional-rendering-really-compact.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="conditional-rendering-really-compact.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
+                </switcher-panel>
+                <div class="card card-editor-note">
+                    <h2><graduation-cap></graduation-cap><span><code>&&</code> operator in Template Literals</span></h2>
+                    <p>In JSX, <code>false</code>, <code>null</code>, and <code>undefined</code> are special values that render nothing to the DOM.
+                    In JavaScript however, a <code>false</code> boolean will be <code>'false'</code> when coerced to a string.</p>
+                    <code-mirror class="del" src="conditional-rendering-coercion.js" mode="jsx" linenumbers="false" readonly="true"></code-mirror>
+                </div>
+                <p>All of these approaches also work for conditionally specifying attributes. If you&rsquo;re unfamiliar with some of this JavaScript syntax, you can start by always using <code>if...else</code>.</p>
+            </section>
+
             
 
         </main>

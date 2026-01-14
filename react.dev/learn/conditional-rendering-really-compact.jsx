@@ -1,0 +1,3 @@
+<div>
+  {isLoggedIn && <AdminPanel />}
+</div>
