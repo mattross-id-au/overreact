@@ -15,7 +15,8 @@
   --text-color-heading: light-dark(#22b3c6, #91e5f0);
   --text-section-heading: light-dark(oklch(0 0 0 / 1), oklch(0.8 0 0 / 1));
   
-  --border-color: light-dark(oklch(0 0 0 / 0.1), oklch(1 0 0 / 0.08));
+  /* --border-color: light-dark(oklch(0 0 0 / 0.1), oklch(1 0 0 / 0.08)); */
+  --border-color: light-dark(#d5e5e5, #2a3443);
   --border-radius: 0.8rem;
   
   --rad-center-dark: oklch(from #4A5769 calc(l / 1.6) c h);
@@ -227,50 +228,6 @@ section + section {
     border-top: 1px solid var(--border-color); 
     margin-top: 3rem; 
 }
-
-/* main, .main-grid {
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: var(--main-grid-columns);
-}
-
-main > *,  .main-grid > *, main > section > * {
-    grid-column: text-start / text-end;
-}
-
-main > .wider,
-.main-grid > .wider,
-section > .wider
-{
-    grid-column: gutter-start / gutter-end;
-    display: grid;
-    grid-template-columns: subgrid;
-}
-
-main > .full-width,
-.main-grid > .full-width,
-main > section,
-main > section > .full-width,
-main-grid > section > .full-width,
-diff-switcher {
-    grid-column: edge-start / edge-end;
-}
-
-main > section {
-    display: grid;
-    grid-template-columns: subgrid;
-}
-
-section + section { border-top: 1px solid var(--border-color); margin-top: 3rem; }
-
-pre {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    line-height: 1.7;
-    font-size:75%;
-} */
 
 
 

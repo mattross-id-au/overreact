@@ -1,165 +1,231 @@
-// customElements.define('diff-option', class extends HTMLElement {
-//     constructor() {
-//         super();
-//         this.attachShadow({ mode: "open"});
+import { makeObservable } from "../lib/observable.js";
 
-//         const value = this.getAttribute("")
+const initialMode = localStorage.getItem("mode") || "diff";
+export const store = makeObservable({ mode: initialMode });
+window.store = store;
 
-//         this.shadowRoot.innerHTML = `
-//             <label data-selected="selected">
-//                 <input type="radio" name="diff" value="diff" checked="checked" aria-checked="true">
-//                 <span>${this.textContent}</span>
-//             </label>
-//         `
+const html = String.raw;
 
-//         this.addEventListener('click', () {
-
-//         })
-//     }
-// });
 
 customElements.define('diff-switcher', class extends HTMLElement {
     #formElement;
+    #currentSelectionElement;
+    #switcherOpenElement;
 
-    connectedCallback() {
-        if(!this.shadowRoot) {
-            this.attachShadow({ mode: "open" });
-            this.shadowRoot.innerHTML = `
-                <style>
-                    :host {
-                        display: block;
-                        grid-column: edge-start / edge-end;
-                    }
-
-                    form {
-                        background-color: oklch(0 0 0 / 0);
-                        padding: 0.7rem var(--content-padding) 0 var(--content-padding);
-                        display: grid;
-                        grid-template-columns: var(--main-grid-columns);
-                    }
-
-                    fieldset {
-                        grid-column: text-start / text-end; 
-                    }
-
-                    input[type="radio"] {
-                        position: absolute;
-                        width: 1px;
-                        height: 1px;
-                        padding: 0;
-                        margin: -1px;
-                        overflow: hidden;
-                        clip: rect(0 0 0 0);
-                        clip-path: inset(50%);
-                        border: 0;
-                        white-space: nowrap;
-                    }
-
-                    .options {
-                        display: flex;
-                        justify-content: center;
-                    }
-
-                    label { 
-                        display: inline-block; 
-                        padding: 0.5rem 1rem;
-                        margin: 0 -1px 0 0;
-                        background-color: light-dark(
-                            oklch(0.98 0.02 202.01 / 1),
-                            oklch(0.22 0.03 254.77 / 1) 
-                        );
-                        border: 1px solid var(--border-color);
-                        border-bottom: 0px solid var(--border-color);
-                        cursor: pointer;
-                        user-select: none;
-                        transition: background-color 240ms, box-shadow 120ms, color 120ms;
-                        &:first-child { border-top-left-radius:  8px; }
-                        &:last-child  { border-top-right-radius: 8px; }
-                    }
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' }).innerHTML = html`
+            <style>
+                :host {
+                    display: block;
+                    grid-column: edge-start / edge-end;
+                    border-bottom: 1px solid var(--border-color);
                     
+                }
 
-                    @media (max-width: 1220px) { 
-                        label {
-                            font-size: 85%;
+                #currentselection { anchor-name: --currentselection }
+                #currentselection, .dropdown {
+                    display: none;
+                    /* overflow: hidden; */
+                }
+
+                form {
+                    background-color: oklch(0 0 0 / 0);
+                    padding: 0.7rem var(--content-padding) 0 var(--content-padding);
+                    display: grid;
+                    
+                }
+
+                fieldset {
+                    border: 0;
+                    padding: 0;
+                    margin: 0;
+                }
+
+                input[type="radio"], input[type="checkbox"] {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    padding: 0;
+                    margin: -1px;
+                    overflow: hidden;
+                    clip: rect(0 0 0 0);
+                    clip-path: inset(50%);
+                    border: 0;
+                    white-space: nowrap;
+                }
+
+                .options {
+                    display: flex;
+                    justify-content: center;
+                }
+
+                label { 
+                    display: inline-block; 
+                    padding: 0.5rem 1rem;
+                    margin-bottom: -1px;
+                    background-color: light-dark(
+                        oklch(0.98 0.02 202.01 / 1),
+                        oklch(0.22 0.03 254.77 / 1) 
+                    );
+                    border: 1px solid var(--border-color);
+                    border-bottom: 0px solid var(--border-color);
+                    border-right: 0px solid var(--border-color);
+                    cursor: pointer;
+                    user-select: none;
+                    transition: background-color 240ms, box-shadow 120ms, color 120ms;
+                    &:first-child { border-top-left-radius:  8px; }
+                    &:last-child  { border-top-right-radius: 8px; border-right: 1px solid var(--border-color); }
+                }
+               
+
+                label:hover {
+                    background-color: oklch(from var(--highlight-background-color) l c h / 0.3)
+                }
+
+                label[data-selected], #currentselection {
+                    color: var(--text-color-strong);  
+                    border-top: 2px solid var(--highlight-background-color);
+                    background: var(--page-background);
+                }
+
+                label:focus-within {
+                    outline: 2px solid var(--highlight-background-color);
+                    outline-offset: 2px;
+                }
+
+
+
+                /* @media (max-width: 1220px) { */
+                @media (max-width: 750px) {
+                    #currentselection, .dropdown {
+                        display: block;
+                        anchor-name: --currentselection
+                    }
+                    .dropdown {
+                        display: grid;
+                        grid-template-columns: 127px auto 280px;
+                        
+                    }
+                    #currentselection {
+                        grid-column: 3/-1;
+                        margin: 0.7rem 25px -1px 25px;
+                        display: grid;
+                        grid-template-columns: auto 15px;
+                        &:after {
+                            content: url("/assets/images/chevron-white.svg");
+                            display: block;
+                            right: 0;
+                            width: 15px;
+                            height: 15px;
+                            transform: rotate(90deg);
                         }
                     }
+                    #switcheropen:not(:checked) + form {
+                        display: none;
+                        
+                    }
+                    form { 
+                        margin:0; padding: 0; 
 
-                    label:focus-within {
-                        outline: 2px solid var(--focus-color, Highlight);
-                        outline-offset: 2px;
+                        .options {
+                            position: absolute;
+                            position-anchor: --currentselection;
+                            top: anchor(bottom);
+                            left: anchor(left);
+                            right: anchor(right);
+                            display: block;
+
+                            border-bottom-left-radius: 8px;
+                            border-bottom-right-radius: 8px;
+                            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                            
+                            label {
+                                display: block;
+                                border: 1px solid var(--border-color);
+                                border-bottom-width: 0px;
+                                border-radius: 0;
+                                margin: 0;
+                                &:last-child { 
+                                    border-bottom-width: 1px; 
+                                    border-bottom-left-radius: 8px;
+                                    border-bottom-right-radius: 8px;
+                                }
+                                &[data-selected] {
+                                    background: light-dark(oklch(0.98 0.02 202.01 / 1), oklch(0.22 0.03 254.77 / 1));
+                                }
+                            }
                     }
 
-                    label:hover {
-                        background-color: oklch(from var(--highlight-background-color) l c h / 0.3)
+                    label {
+                        
                     }
+                }
+            </style>
+            <div class="dropdown">
+                <label id="currentselection" for="switcheropen">Blah</label>
+            </div>
+            <input type="checkbox" name="switcheropen" id="switcheropen" />
+            <form>
+                <fieldset role="radiogroup" aria-label="Diff view">
+                    <div class="options">
+                        <label>
+                            <input type="radio" name="diff" value="wc">
+                            <span>Web Components</span>
+                        </label>
 
-                    label[data-selected] {
-                        color: var(--text-color-strong);  
-                        border-top: 2px solid var(--highlight-background-color);
-                        background: var(--page-background);
-                    }
+                        <label>
+                            <input type="radio" name="diff" value="diff">
+                            <span>Edits</span>
+                        </label>
 
-                    fieldset {
-                        border: 0;
-                        padding: 0;
-                        margin: 0;
-                    }
+                        <label>
+                            <input type="radio" name="diff" value="react">
+                            <span>React (original)</span>
+                        </label>
+                    </div>
+                </fieldset>
+            </form>
+        `;
 
-                    legend {
-                        display: inline-block;
-                        margin-right: 0.5rem;
-                        margin-bottom: 0.5rem;
-                        font-weight: 600;
-                    }
-                </style>
+        this.#currentSelectionElement = this.shadowRoot.getElementById("currentselection");
+        this.#switcherOpenElement = this.shadowRoot.getElementById("switcheropen");
+        this.#formElement = this.shadowRoot.querySelector("form");
+        this.#formElement.addEventListener('submit', (event)=> {
+            event.preventDefault();
+        });
 
-                <form>
-                    <fieldset role="radiogroup" aria-label="Diff view">
-                        <!-- <legend>Show</legend> -->
-                        <div class="options">
-                            <label>
-                                <input type="radio" name="diff" value="wc">
-                                <span>Web Components</span>
-                            </label>
+        store.addEventListener("mode", value => {
+            console.log('received change from store', this, value, store);
+            this.setMode(value)
+        });
+        this.#formElement.addEventListener('change', (event)=> {
+            console.log('formElement eventListener change', this, event);
+            this.setMode(event.target.value);    
+        }); 
 
-                            <label>
-                                <input type="radio" name="diff" value="diff">
-                                <span>Edits</span>
-                            </label>
-
-                            <label>
-                                <input type="radio" name="diff" value="react">
-                                <span>React (original)</span>
-                            </label>
-                        </div>
-                    </fieldset>
-                </form>
-            `
-
-            this.#formElement = this.shadowRoot.querySelector("form");
-
-            this.#formElement.addEventListener('submit', (event)=> {
-                event.preventDefault();
-            });
-
-            this.#formElement.addEventListener('change', (event)=> {
-                this.setDiff(event.target.value);    
-            });    
+        this.setMode(initialMode);
+        
+    }
+    
+    setMode(value) {
+        console.log('setDiff', this, value);
+        if(store.mode !== value) {
+            store.mode = value;
         }
 
-        this.setDiff(localStorage.getItem("diff") || "diff");
-    }
-
-    setDiff(value) {
         const selectedInput = this.shadowRoot.querySelector(`input[name="diff"][value="${value}"]`);
         if(selectedInput && !selectedInput.checked) {
             selectedInput.checked = true;
+            
         }
+        this.#currentSelectionElement.innerHTML = selectedInput.closest("label").querySelector("span").textContent;
 
         document.documentElement.setAttribute("data-diff", value);
-        localStorage.setItem("diff",value);
+        localStorage.setItem("mode",value);
         
-        for(const labelElement of this.shadowRoot.querySelectorAll("label")) {
+
+        for(const labelElement of this.shadowRoot.querySelectorAll("form label")) {
             const input = labelElement.querySelector("input");
 
             if(input.checked) {
@@ -171,12 +237,13 @@ customElements.define('diff-switcher', class extends HTMLElement {
             }
         }
 
+        this.#switcherOpenElement.checked = false;
+
         // emit a composed event so outer listeners can react
         this.dispatchEvent(new CustomEvent('diff-change', {
             detail: { value: value },
             bubbles: true,
             composed: true
         }));
-
     }
-})
+});
