@@ -196,11 +196,9 @@ customElements.define('diff-switcher', class extends HTMLElement {
         });
 
         store.addEventListener("mode", value => {
-            console.log('received change from store', this, value, store);
             this.setMode(value)
         });
         this.#formElement.addEventListener('change', (event)=> {
-            console.log('formElement eventListener change', this, event);
             this.setMode(event.target.value);    
         }); 
 
@@ -209,7 +207,6 @@ customElements.define('diff-switcher', class extends HTMLElement {
     }
     
     setMode(value) {
-        console.log('setDiff', this, value);
         if(store.mode !== value) {
             store.mode = value;
         }

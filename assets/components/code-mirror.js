@@ -1,11 +1,12 @@
 let html = String.raw;
 (async () => {
-    await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js');
-    await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js');
-    await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.min.js');
-    await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js');
-    await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/jsx/jsx.min.js');
-    await scriptPromise('https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.min.js');
+    // https://cdnjs.com/libraries/codemirror
+    await scriptPromise('/assets/lib/vendor/codemirror/codemirror.min.js');
+    await scriptPromise('/assets/lib/vendor/codemirror/xml.min.js');
+    await scriptPromise('/assets/lib/vendor/codemirror/htmlmixed.min.js');
+    await scriptPromise('/assets/lib/vendor/codemirror/javascript.min.js');
+    await scriptPromise('/assets/lib/vendor/codemirror/jsx.min.js');
+    await scriptPromise('/assets/lib/vendor/codemirror/css.min.js');
 
     customElements.define('code-mirror', CodeMirrorElement); 
     globalThis.dispatchEvent(new Event("ready"));
@@ -17,6 +18,7 @@ class CodeMirrorElement extends HTMLElement {
 
     #activeContext;
     #contextObserver;
+    #codeMirrorElement;
     #codeMirrorLayoutElement;
     #highlightsStr = '';
     #highlightsStyleElement;
@@ -25,7 +27,7 @@ class CodeMirrorElement extends HTMLElement {
     options = {
         value: '',
         mode: 'htmlmixed',
-        theme: 'ayu-mirage',
+        theme: 'overreact',
         lineNumbers: true,
         readOnly: false,
         label: ""
@@ -131,12 +133,13 @@ class CodeMirrorElement extends HTMLElement {
             </div>
         `;
 
+        this.#codeMirrorElement = this.shadowRoot.querySelector(".editor");
         this.#codeMirrorLayoutElement = this.shadowRoot.querySelector(".layout");
         this.#highlightsStyleElement = this.shadowRoot.querySelector("style.highlights");
 
         this.styles = Promise.all([
-            stylePromise("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css", this.shadowRoot),
-            stylePromise("https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/ayu-mirage.min.css", this.shadowRoot)
+            stylePromise("/assets/lib/vendor/codemirror/codemirror.min.css", this.shadowRoot),
+            stylePromise("/assets/lib/vendor/codemirror/overreact.css", this.shadowRoot)
         ])
     }
 
@@ -154,25 +157,14 @@ class CodeMirrorElement extends HTMLElement {
             }
         }).then(code=>{
             this.styles.then(()=>{
-                const useElement = this.shadowRoot.querySelector(".editor");
-                
                 const lines = code.split("\n").length;
-                // let height = (lines * 26) + 10;
-
-                // if(height > 400) { 
-                //     height = 400;
-                // }
-                // //console.log(lines);
-                // styleElement.textContent = `
-                //     .editor .CodeMirror { height: ${height}px }
-                // `
 
                 const useOptions = { 
                     ...this.options,
                     value: code
                 }
 
-                this.CodeMirror = CodeMirror(useElement, useOptions);
+                this.CodeMirror = CodeMirror(this.#codeMirrorElement, useOptions);
                 this.CodeMirror.on('change',(_, changeObj) => {
                     const changeEvent = new CodeMirrorChangeEvent(this.CodeMirror.doc.getValue(), changeObj);
                     this.dispatchEvent(changeEvent);
@@ -199,6 +191,8 @@ class CodeMirrorElement extends HTMLElement {
     #handleContextChange() {
         this.#activeContext = document.documentElement.getAttribute("data-diff");
         this.#codeMirrorLayoutElement.setAttribute("data-diff", this.#activeContext);
+        this.CodeMirror.refresh();
+
     }
 
     attributeChangedCallback(property, oldValue, newValue) {
@@ -277,6 +271,11 @@ class CodeMirrorElement extends HTMLElement {
 
     }
     get value() {
+        if(typeof this.CodeMirror == 'undefined') {
+            // Not loaded yet
+            return null;
+        }
+
         return this.CodeMirror.doc.getValue();
     }
 
@@ -303,7 +302,6 @@ class CodeMirrorElement extends HTMLElement {
     }
 
     addEventListener(event, func) {
-        console.log('codeMirror - addEventListener', event, func);
         super.addEventListener(event, func);
     }
 }

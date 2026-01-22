@@ -51,11 +51,16 @@ function loadModule(id) {
 
     let code = FILES[id];
     if (code == null) {
-        throw new Error("Module not found: " + id);
+        if(Object.keys(FILES).length > 0) {
+            throw new Error("Module not found: " + id);
+        } else {
+            code = '';
+        }
     }
 
     code = code
         .replaceAll("import * as React from 'react'","//import * as React from 'react'")
+        .replaceAll("import { useState } from 'react'","const useState = React.useState; //import { useState } from 'react'")
 
     const compiled = Babel.transform(code, {
         presets: ["react"],

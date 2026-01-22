@@ -15,6 +15,9 @@ class CodeIDE extends HTMLElement {
         this.tabs = new Map();
         this.selectedTab = null;
 
+        const previewcss = this.getAttribute('previewcss') || '';
+        const csshref = this.getAttribute('csshref') || '';
+
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = html`
             <link rel="stylesheet" href="/global.css" />
@@ -155,8 +158,18 @@ class CodeIDE extends HTMLElement {
                 <div class="code-full">
                     <slot name="full"></slot>
                 </div>
-                <code-preview class="preview-del" wrapper="react" previewcss="${this.getAttribute('previewcss')}"></code-preview>
-                <code-preview class="preview-ins" wrapper="react" previewcss="${this.getAttribute('previewcss')}"></code-preview>
+                <code-preview 
+                    class="preview-del" 
+                    wrapper="react" 
+                    ${previewcss ? `previewcss="${previewcss}"` : ''}
+                    ${csshref ? `csshref="${csshref}"` : ''}>
+                </code-preview>
+                <code-preview 
+                    class="preview-ins" 
+                    wrapper="react" 
+                    ${previewcss ? `previewcss="${previewcss}"` : ''} 
+                    ${csshref ? `csshref="${csshref}"` : ''}>
+                </code-preview>
             </div>
         `;
 
@@ -214,6 +227,7 @@ class CodeIDE extends HTMLElement {
                     const runFunc = this.#run.bind(this, slotName);
                     this.slottedRunners.set(childElement, runFunc);
                     childElement.addEventListener('change',runFunc);
+                    childElement.addEventListener('ready',runFunc);
                 }   
             }
         }
@@ -327,6 +341,9 @@ class CodeIDE extends HTMLElement {
             for(const [panelElement, panelData] of tabData.panels) {
                 if(tabData.name === tabId) {
                     panelElement.style.display = "flex";
+                    if(panelElement.CodeMirror) {
+                        panelElement.CodeMirror.refresh();
+                    }
                 } else {
                     panelElement.style.display = "none";
                 }
@@ -356,6 +373,10 @@ class CodeIDE extends HTMLElement {
         for(const [tabKey, tabData] of this.tabs) {
             for(const [panelElement, panelData] of tabData.panels) {
                 if(panelData.slot == slotName || panelData.slot == "full") {
+                    if(panelData.element.value === null) {
+                        // Aborting render. Not all files ready yet.
+                        return null;
+                    }
                     sourceFiles.push(panelData);
                     if(panelData.entry !== null) {
                         entryPanel = panelData;
@@ -366,10 +387,11 @@ class CodeIDE extends HTMLElement {
         }
 
         const code = sourceFiles.reduce((previous,panelData) => {
+            let pdev = panelData.element.value || '';
             return previous + `
                 "${panelData.label}": \`
                     ${
-                        panelData.element.value
+                        pdev
                             .replaceAll('${','$\\{')
                             .replaceAll('`','\\`')
                     }
@@ -384,7 +406,8 @@ class CodeIDE extends HTMLElement {
         }
     }
 
-    #run = this.#debounce(this.#runNow, 500);
+    //#run = this.#debounce(this.#runNow, 500);
+    #run = this.#runNow;
 
     #debounce(fn, delay) {
         let timeoutId;

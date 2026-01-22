@@ -1,5 +1,5 @@
 class CodePreview extends HTMLElement {
-    static observedAttributes = ["srcdoc","id", "wrapper", "entry","entryfile","previewcss"];
+    static observedAttributes = ["srcdoc","id", "wrapper", "entry","entryfile","previewcss", "csshref"];
     #entry = '';
     #entryfile = '';
 
@@ -12,7 +12,6 @@ class CodePreview extends HTMLElement {
                 <head>
                     ${ this.appendHeaders() }
                     ${ this.appendConsoleShim() }
-                    <style> ${this.#previewcss}</style>
                 </head>
                 <body>${content}</body>
                 </html>
@@ -31,9 +30,9 @@ class CodePreview extends HTMLElement {
                     ${ this.appendHeaders() }
                     <!-- script src="https://unpkg.com/react@18/umd/react.development.js"></script -->
                     <!-- script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script -->
-                    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+                    <!-- script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
                     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-                    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+                    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script -->
 
                 </head>
                 <body>
@@ -55,9 +54,12 @@ class CodePreview extends HTMLElement {
                 <html>
                 <head>
                     ${ this.appendHeaders() }
-                    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+                    <!-- script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
                     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-                    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+                    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script -->
+                    <script src="/assets/lib/vendor/react.production.min.js"></script>
+                    <script src="/assets/lib/vendor/react-dom.production.min.js"></script>
+                    <script src="/assets/lib/vendor/babel.min.js"></script>
                 </head>
                 <body>
                     <div id="root"></div>
@@ -79,6 +81,7 @@ class CodePreview extends HTMLElement {
     #activeWrapper = CodePreview.srcWrappers.get(this.#activeWrapperName);
     #rawContentStr = '';
     #previewcss = '';
+    #csshref = '';
 
 
 
@@ -117,6 +120,9 @@ class CodePreview extends HTMLElement {
         }
         if(property=="previewcss") {
             this.#previewcss = newValue;
+        }
+        if(property=="csshref") {
+            this.#csshref = newValue;
         }
         
     }
@@ -223,9 +229,10 @@ class CodePreview extends HTMLElement {
                 }
 
                 /* Preview CSS */
-                ${this.#previewcss}
+                ${this.#previewcss ? this.#previewcss : ''}
 
             </style>
+            ${this.#csshref ? `<link rel="stylesheet" href="${this.#csshref}">` : '' }
         `)
     }
 
