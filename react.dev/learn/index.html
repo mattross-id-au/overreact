@@ -14,6 +14,7 @@
     <script src="/assets/components/code-mirror.js" type="module"></script>
     <script src="/assets/components/code-preview.js" type="module"></script>
     <script src="/assets/components/code-ide.js" type="module"></script>
+    <script src="/assets/components/under-construction.js" type="module"></script>
     <script src="/assets/icons/lucide/graduation-cap.js" type="module"></script>
 </head>
 <body>
@@ -188,6 +189,102 @@
                 <p>All of these approaches also work for conditionally specifying attributes. If you&rsquo;re unfamiliar with some of this JavaScript syntax, you can start by always using <code>if...else</code>.</p>
             </section>
 
+            <section>
+                <h2 id="rendering-lists">Rendering lists</h2>
+                <p>You will rely on JavaScript features like <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for" target="_blank" rel="noopener"><code>for</code> loop</a> and the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map" target="_blank" rel="noopener">array <code>map()</code> function</a> to render lists of components.</p>
+                <p>For example, let&lsquo;s say you have an array of products:</p>
+                <code-mirror src="rendering-lists-products.js" mode="javascript" linenumbers="false" readonly="true"></code-mirror>
+                <p>Inside your component, use the <code>map()</code> function to transform an array of products into an array of <code>&lt;li&gt;</code> items:</p>
+
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="rendering-lists-map.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="rendering-lists-map.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
+                </switcher-panel>
+
+                <p>
+                    <del>Notice how <code>&lt;li&gt;</code> has a <code>key</code> attribute. For each item in a list, you should pass a string or a number that uniquely identifies that item among its siblings. Usually, a key should be coming from your data, such as a database ID. React uses your keys to know what happened if you later insert, delete, or reorder the items.</del>
+                    <ins>
+                        Notice now <code>&lt;li&gt;</code> has a <code>data-id</code> attribute. For each item in a list, you can uniquely identify that item among its siblings. Usually, an ID should be coming from your data, such as a database ID. Javascript can use your <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/How_to/Use_data_attributes" target="_blank" rel="noopener">data attributes</a> to later insert, delete, or reorder the items.</ins>
+                    </ins>
+                </p>
+
+                <code-ide class="wider">
+                    <code-mirror src="/react.dev/learn/rendering-lists-app.jsx" label="React"      mode="jsx"        slot="del" entry></code-mirror>
+                    <code-mirror src="/react.dev/learn/rendering-lists-app.js"  label="JavaScript" mode="javascript" slot="ins" entry="shopping-list"></code-mirror>
+                </code-ide>
+                
+                <div class="card card-editor-note">
+                    <h2><graduation-cap></graduation-cap><span>Building strings from arrays</span></h2>
+                    <p>The code above is simply building a string for the browser to parse. This is why at the end of <code>products.map</code> we need to convert the array in to a string using <code>.join('')</code>.
+                </div>
+            </section>
+
+
+            <section>
+                <h2 id="responding-to-events">Responding to events</h2>
+                <p>You can respond to events by declaring <em>event handler</em> functions inside your components:</p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" src="responding-to-events-button.jsx" mode="jsx" linenumbers="false" readonly="true" label="React"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" src="responding-to-events-button.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
+                </switcher-panel>
+
+                <p><del>Notice how <code>onClick={handleClick}</code> has no parentheses at the end! Do not <em>call</em> the event handler function: you only need to <em>pass it down</em>. React will call your event handler when the user clicks the button.</del></p>
+
+                <div class="card card-editor-note">
+                    <h2><graduation-cap></graduation-cap><span>Using <code>onclick</code> attribute</span></h2>
+                    <p>As custom elements are nodes in the DOM tree, you can run their functions. The challenge is navigating the tree to get to the parent custom element from the inner elements.</p>
+                    <p>This would also work:</p>
+                    <code-mirror linenumbers="false" readonly="true"><button onclick="this.getRootNode().host.handleClick()">Click me</button></code-mirror>
+                    
+                </div>
+            </section>
+
+
+            <section>
+                <h2 id="responding-to-events">Updating the screen</h2>
+                <p>Often, you&rsquo;ll want your component to &ldquo;remember&rdquo; some information and display it. For example, maybe you want to count the number of times a button is clicked. To do this, add <del>state</del><ins>properties</ins> to your component.</p>
+                <p><del>First, import <a href="https://react.dev/reference/react/useState" target="_blank" rel="noopener"><code>useState</code></a> from React:</del></p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" mode="jsx" linenumbers="false" readonly="true" label="React">import { useState } from 'react';</code-mirror>
+                </switcher-panel>
+                <p><del>Now you</del><ins>You</ins> can declare a <del><em>state</em></del> variable inside your component <ins>class</ins>:</p>
+                <switcher-panel value="diff, react">
+                    <code-mirror class="del" mode="jsx" linenumbers="false" readonly="true" label="React">function MyButton() {
+  const [count, setCount] = useState(0);
+  // ...</code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <code-mirror class="ins" mode="javascript" linenumbers="false" readonly="true" label="JavaScript">customElements.define('my-button', class extends HTMLElement {
+  #count = 0;
+  // ...</code-mirror>
+                </switcher-panel>
+
+                <switcher-panel value="diff, react">
+                    <p><del>You&rsquo;ll get two things from <code>useState</code> the current state (<code>count</code>), and the function that lets you update it (<code>setCount</code>). You can give them any names, but the convention is to write <code>[something, setSomething]</code>.</del></p>
+                    <p><del>The first time the button is displayed, <code>count</code> will be <code>0</code> because you passed <code>0</code> to <code>useState()</code>. When you want to change state, call <code>setCount()</code> and pass the new value to it. Clicking this button will increment the counter:</del></p>
+                    <code-mirror class="del" src="updating-the-screen-button.jsx" mode="jsx" linenumbers="false" readonly="true" label="React" highlights="5"></code-mirror>
+                </switcher-panel>
+                <switcher-panel value="diff, wc">
+                    <p><ins>Here's where React and Custom Elements are very different. React will calculate changes and update DOM nodes only when needed so there's little performance penalty for re-renders, but causes other side-effects which you'll see soon with Hooks. With Custom Elements, everytime you use rerender with innerHTML, it re-builds and resets the entire DOM under it. In a large applicatoin, doing this frequently will make your application run very slow. Because of this we need to be more surgical with our updates and only update DOM nodes as needed.</ins></p>
+                    <code-mirror class="ins" src="updating-the-screen-button.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript" highlights="5-6"></code-mirror>
+                </switcher-panel>
+
+                <p><del>React</del><ins>JavaScript</ins> will call your component function again. This time, <code>count</code> will be <code>1</code>. Then it will be <code>2</code>. And so on.</p>
+                <p>If you render the same component multiple times, each will get its own state. Click each button separately:</p>
+
+                <code-ide class="wider" previewcss="my-button, button { display: block; margin-bottom: 5px; }">
+                    <code-mirror src="/react.dev/learn/updating-the-screen-app.jsx"  label="React"    mode="jsx"        slot="del" entry></code-mirror>
+                    <code-mirror src="/react.dev/learn/updating-the-screen-app.js" label="JavaScript" mode="javascript" slot="ins" entry="my-app"></code-mirror>
+                </code-ide>
+
+                <p>Notice how each button &ldquo;remembers&rdquo; its own count state and doesn&rsquo;t affect other buttons.</p>
+            </section>
+
+            <under-construction></under-construction>
             
 
         </main>
