@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // Simple subscribable state management
+        const state = Object.assign(new EventTarget(), {
+            count: 0,
+            increment() {
+                this.count++;
+                this.dispatchEvent(new CustomEvent("increment", {detail: this.count}));
+            }
+        });
+
+        // Button that sets and listens for state changes
+        customElements.define('my-button', class extends HTMLElement { 
+            connectedCallback() {
+                this.innerHTML = '<button>Clicked <span>0</span> times</button>';
+
+                // Send increments on click
+                this.querySelector("button").addEventListener("click", () => {
+                    state.increment();
+                })
+
+                // Listen for increments
+                state.addEventListener("increment", (event) => { 
+                    this.querySelector("span").textContent = event.detail;
+                })
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Counters that update together</h1>
+    <my-button></my-button>
+    <my-button></my-button>
+</body>
+</html>

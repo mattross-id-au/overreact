@@ -82,7 +82,7 @@
                 <p><del>The export default keywords specify the main component in the file. If you&rsquo;re not familiar with some piece of JavaScript syntax, <a href="https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export" target="_blank" rel="noopener">MDN</a> and <a href="https://javascript.info/import-export" target="_blank" rel="noopener">javascript.info</a> have great references.</del></p>
 
                 <div class="card card-editor-note">
-                    <h2><graduation-cap></graduation-cap>Note on Shadow DOM</h2>
+                    <h3><graduation-cap></graduation-cap>Note on Shadow DOM</h3>
                     <p>In the example above, the <code>my-button</code> element uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM" target="_blank" rel="noopener">Shadow DOM</a> for it's child components as they make up self-contained functionality with encapsulated behaviour.</p>
                     <p><code>my-app</code> on the other hand inserts page content for it's child elements, so we keep the generated elements in the main DOM.</p>
                 </div>
@@ -125,7 +125,7 @@
 
             <section>
                 <h2 id="displaying-data">Displaying data </h2>
-                <p><del>JSX</del><ins>Template literals</ins> lets you put markup into JavaScript <ins>strings</ins>. Curly braces let you “escape back” into JavaScript so that you can embed some variable from your code and display it to the user. For example, this will display <code>user.name</code>:</p>
+                <p><del>JSX</del><ins>Template literals</ins> lets you put markup into JavaScript <ins>strings</ins>. Curly braces let you &ldquo;escape back&rdquo; into JavaScript so that you can embed some variable from your code and display it to the user. For example, this will display <code>user.name</code>:</p>
                 <switcher-panel value="diff, react">
                     <code-mirror class="del" src="displaying-data.jsx" mode="jsx" linenumbers="false" readonly="true" label="React JSX"></code-mirror>
                 </switcher-panel>
@@ -150,7 +150,7 @@
                 <p>In the above example, <del><code>style={{}}</code></del><ins><code>style=""</code></ins> is not a special syntax, but a regular <ins>string.</ins><del><code>{}</code> object inside the <code>style={ }</code> JSX curly braces. You can use the <code>style</code> attribute when your styles depend on JavaScript variables.</del></p>
 
                 <div class="card card-editor-note">
-                    <h2><graduation-cap></graduation-cap>Applying JavaScript style objects</h2>
+                    <h3><graduation-cap></graduation-cap>Applying JavaScript style objects</h3>
                     <p>If you want to define styles in JavaScript and apply them to an HTML element, you can:</p>
                     <code-mirror src="/react.dev/learn/js-styles.js" mode="javascript" readonly="true" linenumbers="false"></code-mirror>
                 </div>
@@ -181,7 +181,7 @@
                     <code-mirror class="ins" src="conditional-rendering-really-compact.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript"></code-mirror>
                 </switcher-panel>
                 <div class="card card-editor-note">
-                    <h2><graduation-cap></graduation-cap><span><code>&&</code> operator in Template Literals</span></h2>
+                    <h3><graduation-cap></graduation-cap><span><code>&&</code> operator in Template Literals</span></h3>
                     <p>In JSX, <code>false</code>, <code>null</code>, and <code>undefined</code> are special values that render nothing to the DOM.
                     In JavaScript however, a <code>false</code> boolean will be <code>'false'</code> when coerced to a string.</p>
                     <code-mirror class="del" src="conditional-rendering-coercion.js" mode="jsx" linenumbers="false" readonly="true"></code-mirror>
@@ -216,7 +216,7 @@
                 </code-ide>
                 
                 <div class="card card-editor-note">
-                    <h2><graduation-cap></graduation-cap><span>Building strings from arrays</span></h2>
+                    <h3><graduation-cap></graduation-cap><span>Building strings from arrays</span></h3>
                     <p>The code above is simply building a string for the browser to parse. This is why at the end of <code>products.map</code> we need to convert the array in to a string using <code>.join('')</code>.
                 </div>
             </section>
@@ -235,7 +235,7 @@
                 <p><del>Notice how <code>onClick={handleClick}</code> has no parentheses at the end! Do not <em>call</em> the event handler function: you only need to <em>pass it down</em>. React will call your event handler when the user clicks the button.</del></p>
 
                 <div class="card card-editor-note">
-                    <h2><graduation-cap></graduation-cap><span>Using <code>onclick</code> attribute</span></h2>
+                    <h3><graduation-cap></graduation-cap><span>Using <code>onclick</code> attribute</span></h3>
                     <p>As custom elements are nodes in the DOM tree, you can run their functions. The challenge is navigating the tree to get to the parent custom element from the inner elements.</p>
                     <p>This would also work:</p>
                     <code-mirror linenumbers="false" readonly="true"><button onclick="this.getRootNode().host.handleClick()">Click me</button></code-mirror>
@@ -245,7 +245,7 @@
 
 
             <section>
-                <h2 id="responding-to-events">Updating the screen</h2>
+                <h2 id="updating-the-screen">Updating the screen</h2>
                 <p>Often, you&rsquo;ll want your component to &ldquo;remember&rdquo; some information and display it. For example, maybe you want to count the number of times a button is clicked. To do this, add <del>state</del><ins>properties</ins> to your component.</p>
                 <p><del>First, import <a href="https://react.dev/reference/react/useState" target="_blank" rel="noopener"><code>useState</code></a> from React:</del></p>
                 <switcher-panel value="diff, react">
@@ -269,8 +269,8 @@
                     <code-mirror class="del" src="updating-the-screen-button.jsx" mode="jsx" linenumbers="false" readonly="true" label="React" highlights="5"></code-mirror>
                 </switcher-panel>
                 <switcher-panel value="diff, wc">
-                    <p><ins>Here's where React and Custom Elements are very different. React will calculate changes and update DOM nodes only when needed so there's little performance penalty for re-renders, but causes other side-effects which you'll see soon with Hooks. With Custom Elements, everytime you use rerender with innerHTML, it re-builds and resets the entire DOM under it. In a large applicatoin, doing this frequently will make your application run very slow. Because of this we need to be more surgical with our updates and only update DOM nodes as needed.</ins></p>
-                    <code-mirror class="ins" src="updating-the-screen-button.js" mode="javascript" linenumbers="false" readonly="true" label="JavaScript" highlights="5-6"></code-mirror>
+                    <p><ins>Here's where React and Custom Elements are very different. React will calculate changes and update DOM nodes only when needed so there's little performance penalty for re-renders, but this concept causes other side-effects which you'll see soon with Hooks. With Custom Elements, everytime you re-render with innerHTML, it re-builds and resets the entire DOM under it. In a large application, doing this frequently will make your application run very slow. Because of this we need to be more surgical with our updates and only update DOM nodes as needed.</ins></p>
+                    <code-mirror class="ins" src="updating-the-screen-button.js" mode="javascript" linenumbers="false" readonly="true" label="React" highlights="5-6"></code-mirror>
                 </switcher-panel>
 
                 <p><del>React</del><ins>JavaScript</ins> will call your component function again. This time, <code>count</code> will be <code>1</code>. Then it will be <code>2</code>. And so on.</p>
@@ -282,6 +282,91 @@
                 </code-ide>
 
                 <p>Notice how each button &ldquo;remembers&rdquo; its own count state and doesn&rsquo;t affect other buttons.</p>
+            </section>
+
+
+            <section>
+                <switcher-panel value="diff, react">
+                    <h2 id="using hooks"><del>Using Hooks</del></h2>
+                    <p><del>Functions starting with <code>use</code> are called <em>Hooks</em>. <code>useState</code> is a built-in Hook provided by React. You can find other built-in Hooks in the API reference. You can also write your own Hooks by combining the existing ones.</del></p>
+                    <p><del>Hooks are more restrictive than other functions. You can only call Hooks <em>at the top</em> of your components (or other Hooks). If you want to use <code>useState</code> in a condition or a loop, extract a new component and put it there.</del></p>
+                </switcher-panel>
+                <div class="card card-editor-note">
+                    <h3 id="react-rendering-bs"><graduation-cap></graduation-cap><span>React uses &ldquo;rendering&rdquo; functions for <em>everything</em></span></h3>
+
+                    <p>React recommends functional components: a single function whose job is to return JSX describing what should be rendered. This collapses everything like rendering, lifecycle, side effects, and state transitions into one conceptual bucket.</p>
+                    <p>A render function should describe UI. But with hooks, it also becomes the only place you&rsquo;re allowed to define things like &ldquo;run once on mount&rdquo;, &ldquo;react to external changes&rdquo;, or &ldquo;synchronize with the outside world&rdquo;. There&lsquo;s no structurally separate or semantically clear place for lifecycle logic. It all has to live inside the render function.</p>
+
+                    <p>Hooks are described as a way to &ldquo;break out&rdquo; of the render lifecycle, by calling <em style="white-space: nowrap;"><sup style="font-size: 8pt">⭐</sup>special&nbsp;functions<sup style="font-size: 8pt">⭐</sup></em> inside the render path. These calls look like normal function calls, but they don&rsquo;t behave like normal function calls. They&rsquo;re scheduled, replayed, or skipped based on implicit rules that live outside the code you&rsquo;re writing.</p>
+
+                    <p>So a functional component effectively says: &ldquo;Here is the code that runs every time we render... except for the parts that don&rsquo;t. Those parts are mixed in, must follow strict ordering rules, and only work if you already understand React&rsquo;s internal execution model.”</p>
+
+                    <code-mirror src="/react.dev/learn/react-hook-stupid.jsx" mode="jsx" linenumbers="false" readonly="true" highlights="3,8-12"></code-mirror>
+                    
+                </div>
+            </section>
+
+            <section>
+                <h2 id="sharing-data-between-components">Sharing data between components </h2>
+                <p>In the previous example, each <code>MyButton</code> had its own independent <code>count</code>, and when each button was clicked, only the <code>count</code> for the button clicked changed:</p>
+                <style>
+                    .figwrapper { 
+                        display: flex;
+                        margin: 0 auto;
+                        max-width: 1000px;
+                        figure { 
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            img, figcaption {
+                                width: fit-content;
+                                margin:0;
+                            }
+                        }
+                    }
+                    
+                </style>
+                <div class="wider figwrapper">
+                    <figure>
+                        <img class="dark-only" alt="Diagram showing a tree of three components, one parent labeled MyApp and two children labeled MyButton. Both MyButton components contain a count with value zero." width="407" height="367" src="sharing_data_child_dark.webp" />
+                        <img class="light-only" alt="Diagram showing a tree of three components, one parent labeled MyApp and two children labeled MyButton. Both MyButton components contain a count with value zero." width="407" height="367" src="sharing_data_child_light.webp" />
+                        <figcaption>Initially, each <del><code>MyButton</code></del><ins><code>my-button</code></ins>&rsquo;s <code>count</code> state is <code>0</code></figcaption>
+                    </figure>
+                    <figure>
+                        <img class="dark-only" alt="The same diagram as the previous, with the count of the first child MyButton component highlighted indicating a click with the count value incremented to one. The second MyButton component still contains value zero." width="407" height="367" src="sharing_data_child_clicked_dark.webp" />
+                        <img class="light-only" alt="The same diagram as the previous, with the count of the first child MyButton component highlighted indicating a click with the count value incremented to one. The second MyButton component still contains value zero." width="407" height="367" src="sharing_data_child_clicked_light.webp" />
+                        <figcaption>The first <del><code>MyButton</code></del><ins><code>my-button</code></ins> updates its <code>count</code> to <code>1</code></figcaption>
+                    </figure>
+                </div>
+
+                <p>However, often you&rsquo;ll need components to <em>share data and always update together</em>.</p>
+                <p>To make both <code><del>MyButton</del><ins>my-button</ins></code> components display the same <code>count</code> and update together, you need to move the state from the individual buttons &rdquo;upwards&rdquo; to the closest component containing all of them.</p>
+
+                <div class="wider figwrapper">
+                    <figure>
+                        <img class="dark-only" alt="Diagram showing a tree of three components, one parent labeled MyApp and two children labeled MyButton. MyApp contains a count value of zero which is passed down to both of the MyButton components, which also show value zero." width="410" height="385" src="sharing_data_parent_dark.png" />
+                        <img class="light-only" alt="Diagram showing a tree of three components, one parent labeled MyApp and two children labeled MyButton. MyApp contains a count value of zero which is passed down to both of the MyButton components, which also show value zero." width="410" height="385" src="sharing_data_parent_light.webp" />
+                        <figcaption>Initially, <code><del>MyApp</del><ins>my-app</ins></code>&rsquo;s count <code>state</code> is <code>0</code> and is passed down to both children</figcaption>
+                    </figure>
+                    <figure>
+                        <img class="dark-only" alt="The same diagram as the previous, with the count of the parent MyApp component highlighted indicating a click with the value incremented to one. The flow to both of the children MyButton components is also highlighted, and the count value in each child is set to one indicating the value was passed down." width="410" height="385" src="sharing_data_parent_clicked_dark.webp" />
+                        <img class="light-only" alt="The same diagram as the previous, with the count of the parent MyApp component highlighted indicating a click with the value incremented to one. The flow to both of the children MyButton components is also highlighted, and the count value in each child is set to one indicating the value was passed down." width="410" height="385" src="sharing_data_parent_clicked_light.webp" />
+                        <figcaption>On click, <code><del>MyApp</del><ins>my-app</ins></code> updates its <code>count</code> state to <code>1</code> and passes it down to both children</figcaption>
+                    </figure>
+                </div>
+
+                <p>Now when you click either button, the <code>count</code> in <code><del>MyApp</del><ins>my-app</ins></code> will change, which will change both of the counts in <code><del>MyButton</del><ins>my-button</ins></code>. Here&rsquo;s how you can express this in code.</p>
+
+                <p>First, <em>move the state up</em> from <code><del>MyButton</del><ins>my-button</ins></code> into <code><del>MyApp</del><ins>my-app</ins></code>:</p>
+
+                <p>...</p>
+
+
+                <code-ide class="wider" previewcss="my-button, button { display: block; margin-bottom: 5px; }">
+                    <code-mirror src="/react.dev/learn/sharing-data-app.jsx"  label="React"    mode="jsx"        slot="del" entry></code-mirror>
+                    <!-- <code-mirror src="/react.dev/learn/sharing-data-app.js" label="JavaScript" mode="javascript" slot="ins" entry="my-app"></code-mirror> -->
+                    <code-mirror src="/react.dev/learn/sharing-data-app2.js"  label="Javascript"    mode="javascript" slot="ins" entry="my-app"></code-mirror>
+                </code-ide>
             </section>
 
             <under-construction></under-construction>

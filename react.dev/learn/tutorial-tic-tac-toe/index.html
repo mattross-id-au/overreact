@@ -21,24 +21,63 @@
         <main slot="main">
             <intro-block href="https://react.dev/learn/tutorial-tic-tac-toe" text="Tic-Tac-Toe react Tutorial"></intro-block>
             <diff-switcher></diff-switcher>
-            <h1>Tutorial: Tic-Tac-Toe</h1>
-            <p>You will build a small tic-tac-toe game during this tutorial. This tutorial does not assume any existing React knowledge. The techniques you’ll learn in the tutorial are fundamental to building any React app, and fully understanding it will give you a deep understanding of React.</p>
-
-            <div class="card card-note">
-                <h2><notebook-text></notebook-text>Note</h2>
-                <p>This tutorial is designed for people who prefer to <strong>learn by doing</strong> and want to quickly try making something tangible. If you prefer learning each concept step by step, start with <a href="/react.dev/learn/describing-the-ui">Describing the UI</a>.</p>
-            </div>
-
+            
             <section>
-                <h3 id="wrapping-up">Wrapping up</h3>
-                <p>...</p>
-                <code-ide class="wider" csshref="/react.dev/learn/tutorial-tic-tac-toe/tic-tac-toe-style.css">
-                    <code-mirror src="/react.dev/learn/tutorial-tic-tac-toe/final.jsx" label="React"      mode="jsx"        slot="del" entry tabid="App"></code-mirror>
-                    <code-mirror src="/react.dev/learn/tutorial-tic-tac-toe/final.js"  label="JavaScript" mode="javascript" slot="ins" entry="ttt-game" tabid="App"></code-mirror>
-                </code-ide>
+                <h1>Tutorial: Tic-Tac-Toe</h1>
+                <p>You will build a small tic-tac-toe game during this tutorial. This tutorial does not assume any existing React knowledge. The techniques you’ll learn in the tutorial are fundamental to building any React app, and fully understanding it will give you a deep understanding of React.</p>
+
+                <div class="card card-note">
+                    <h2><notebook-text></notebook-text>Note</h2>
+                    <p>This tutorial is designed for people who prefer to <strong>learn by doing</strong> and want to quickly try making something tangible. If you prefer learning each concept step by step, start with <a href="/react.dev/learn/describing-the-ui">Describing the UI</a>.</p>
+                </div>
+
+                <p>The tutorial is divided into several sections:</p>
+                <ul>
+                    <li><a href="#setup-for-the-tutorial">Setup for the tutorial</a> will give you a <strong>starting point</strong> to follow the tutorial.</li>
+                    <li><a href="#overview">Overview</a> will teach you <strong>the fundamentals</strong> of React: components, props, and state.</li>
+                    <li><a href="#completing-the-game">Completing the game</a> will teach you <strong>the most common techniques</strong> in React development.</li>
+                    <li><a href="#adding-time-travel">Adding time travel</a> will give you <strong>a deeper insight</strong> into the unique strengths of React.</li>
+                </ul>
             </section>
 
+
+
+
+
+
+
             <under-construction></under-construction>
+            <section>
+                <h3 id="wrapping-up">Wrapping up</h3>
+                <p>Congratulations! You&rsquo;ve created a tic-tac-toe game that:</p>
+                <ul>
+                    <li>Lets you play tic-tac-toe,</li>
+                    <li>Indicates when a player has won the game,</li>
+                    <li>Stores a game&rsquo;s history as a game progresses,</li>
+                    <li>Allows players to review a game&rsquo;s history and see previous versions of a game&rsquo;s board.</li>
+                </ul>
+                <p>Nice work! We hope you now feel like you have a decent grasp of how React works.</p>
+                <p>Check out the final result here:</p>
+                <code-ide class="wider" csshref="/react.dev/learn/tutorial-tic-tac-toe/styles.css">
+                    <code-mirror src="/react.dev/learn/tutorial-tic-tac-toe/final.jsx" label="React"      mode="jsx"        slot="del" entry tabid="App" tab="App.js"></code-mirror>
+                    <code-mirror src="/react.dev/learn/tutorial-tic-tac-toe/final2.js"  label="JavaScript" mode="javascript" slot="ins" entry="ttt-game" tabid="App" tab="app.js"></code-mirror>
+                    
+                    <code-mirror src="/react.dev/learn/tutorial-tic-tac-toe/styles.css"  label="CSS"              mode="css"        slot="del" tabid="Styles" tab="styles.css"></code-mirror>
+                    <code-mirror src="/react.dev/learn/tutorial-tic-tac-toe/styles.js"  label="CSS in JavaScript" mode="javascript" slot="ins" tabid="Styles" tab="styles.js"></code-mirror>
+                </code-ide>
+
+                <p>If you have extra time or want to practice your new React skills, here are some ideas for improvements that you could make to the tic-tac-toe game, listed in order of increasing difficulty:</p>
+                <ol>
+                    <li>For the current move only, show &ldquo;You are at move #…&rdquo; instead of a button.</li>
+                    <li>Rewrite <code>Board</code> to use two loops to make the squares instead of hardcoding them.</li>
+                    <li>Add a toggle button that lets you sort the moves in either ascending or descending order.</li>
+                    <li>When someone wins, highlight the three squares that caused the win (and when no one wins, display a message about the result being a draw).</li>
+                    <li>Display the location for each move in the format (row, col) in the move history list.</li>
+                </ol>
+                <p>Throughout this tutorial, you&rsquo;ve touched on React concepts including elements, components, props, and state. Now that you&rsquo;ve seen how these concepts work when building a game, check out <a href="/react.dev/learn/thinking-in-react">Thinking in React</a> to see how the same React concepts work when building an app&rsquo;s UI.</p>
+            </section>
+
+            
 
         </main>
 
